@@ -1,6 +1,6 @@
 # Seedex
 
-Seedex turns an OpenWrt router into the secure privacy layer of a home network. All traffic leaves through tunnels to servers that you own, nobody along the way reads your DNS queries, and you decide per domain, per list, or per device where traffic goes.
+Seedex is a secure network privacy layer for OpenWrt routers: VPN and Proxy, convenient routing, secured DNS, managed with a single command or the LuCI app along with self-hosted VPN and Proxy server.
 
 ## Parts
 
@@ -13,7 +13,7 @@ Seedex consists of two parts:
 
 * **VPN**: AmneziaWG tunnels. The router keeps traffic on the fastest live tunnel.
 * **Proxy**: A sing-box tunnel built from your proxy configs. sing-box picks the best outbound itself.
-* **Router**: The policy. It decides what goes through a tunnel, what goes straight to the provider, and what is blocked, by domain, by list, or by device. A kill switch covers the moments when no tunnel is up.
+* **Router**: The routing policies which decides what goes through a tunnel, what goes straight to the provider, and what is blocked by domain, list, or device. A kill switch drops traffic when no tunnel is up.
 * **DNS**: A private resolver for the whole network, with an encrypted upstream and interception of devices that resolve on their own.
 * **Link**: The connection to [seedex-agent](https://github.com/aggnostos/seedex-openwrt). The router pulls its configs from the server and manages the server remotely.
 
