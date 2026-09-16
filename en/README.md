@@ -6,8 +6,8 @@ Seedex turns an OpenWrt router into the secure privacy layer of a home network. 
 
 Seedex consists of two parts:
 
-* **seedex-openwrt** is the router side: the `sdx` command, the services, and a LuCI app. The source is at [github.com/aggnostos/seedex-openwrt](https://github.com/aggnostos/seedex-openwrt).
-* **seedex-agent** is the server side: one command turns an Ubuntu server into the far end of the tunnels. The source is at [github.com/aggnostos/seedex-agent](https://github.com/aggnostos/seedex-agent).
+* **Seedex OpenWrt** is a secure network privacy layer for OpenWrt routers: VPN and proxy, convenient routing, secured DNS, managed with a single command or the LuCI app. It works with any AmneziaWG or sing-box server. The source is at [github.com/aggnostos/seedex-openwrt](https://github.com/aggnostos/seedex-openwrt).
+* **Seedex Agent** is the server side: one command turns an Ubuntu server into a VPN and proxy server, AmneziaWG, sing-box, and the Link API that the router pulls its configs from. The client configs are native AmneziaWG and sing-box files, so any device with the usual apps can use the same server. The source is at [github.com/aggnostos/seedex-agent](https://github.com/aggnostos/seedex-agent).
 
 ## seedex-box modules
 

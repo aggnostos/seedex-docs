@@ -6,8 +6,8 @@ Seedex превращает роутер на OpenWrt в защищённый с
 
 Seedex состоит из двух частей:
 
-* **seedex-openwrt** — сторона роутера: команда `sdx`, сервисы и приложение для LuCI. Исходный код: [github.com/aggnostos/seedex-openwrt](https://github.com/aggnostos/seedex-openwrt).
-* **seedex-agent** — сторона сервера: одна команда разворачивает на сервере с Ubuntu всё, к чему подключается роутер. Исходный код: [github.com/aggnostos/seedex-agent](https://github.com/aggnostos/seedex-agent).
+* **Seedex OpenWrt** — защитный слой сети для роутеров на OpenWrt: VPN и Proxy, удобная маршрутизация, защищённый DNS, управляемые одной командой или приложением для LuCI. Работает с любым сервером AmneziaWG или sing-box. Исходный код: [github.com/aggnostos/seedex-openwrt](https://github.com/aggnostos/seedex-openwrt).
+* **Seedex Agent** — сторона сервера: одна команда разворачивает на сервере с Ubuntu всё, к чему подключается роутер: AmneziaWG, sing-box и Link API, из которого роутер забирает конфигурации. Клиентские конфиги — нативные файлы AmneziaWG и sing-box, поэтому тот же сервер можно использовать с обычными приложениями на любом устройстве. Исходный код: [github.com/aggnostos/seedex-agent](https://github.com/aggnostos/seedex-agent).
 
 ## Модули seedex-box
 
