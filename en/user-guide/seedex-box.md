@@ -150,13 +150,46 @@ A link is the connection to a server that runs seedex-agent. You pair once. From
 
 ## LuCI
 
-The **Services > Seedex** menu mirrors `sdx`:
+The **Services > Seedex** menu mirrors `sdx`. Each page shows **Unsaved changes** with **Apply** and **Revert** buttons, and **Changes not applied yet** when the service runs with older settings than the saved ones.
 
-* **Status** shows the services and the output of `sdx`.
-* **VPN** and **Proxy** manage configs: add, edit, enable, disable, and remove.
-* **Router** manages rules and settings.
-* **DNS** manages settings.
-* **Link** manages servers: add, remove, sync, and pick the configs to import.
-* **System** imports a config file, resets a service, and shows logs.
+### Status
 
-Each page shows **Unsaved changes** with **Apply** and **Revert** buttons, and **Changes not applied yet** when the service runs with older settings than the saved ones.
+Shows the services with **Stop** and **Restart** buttons, and the output of `sdx`.
+
+![The Status tab: the services table and the sdx output](../../assets/status.png)
+
+### VPN
+
+Manages the VPN configs: add, edit, enable, disable, and remove.
+
+![The VPN tab: the config list](../../assets/vpn.png)
+
+### Proxy
+
+Manages the proxy configs the same way, and the sing-box settings.
+
+![The Proxy tab: the config list and the settings](../../assets/proxy.png)
+
+### Router
+
+Manages the rules and the router settings.
+
+![The Router tab: the rules table and the settings](../../assets/router.png)
+
+### DNS
+
+Manages the DNS settings: upstream, resolver, and interception.
+
+![The DNS tab: the settings](../../assets/dns.png)
+
+### Link
+
+Manages the servers: add, remove, sync, and pick the configs to import.
+
+![The Link tab: the servers table](../../assets/link.png)
+
+### System
+
+Imports a config file, resets a service, and shows the logs.
+
+![The System tab: import, reset, and logs](../../assets/system.png)
