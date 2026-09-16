@@ -6,8 +6,8 @@
 
 * Docker для сборки. В нём работает apk-tools, который собирает пакеты.
 * shfmt 3.13 и shellcheck 0.11 для линта.
-* Роутер на OpenWrt 25.x или новее с `apk`, чтобы установить сборку.
-* По желанию — ключ подписи apk в `~/.seedex/apk-sign.key`. Без ключа пакеты не подписаны, и `install.sh` ставит их с `--allow-untrusted`.
+* Роутер на OpenWrt 24.10.2 или новее, чтобы установить сборку.
+* По желанию — ключи подписи: ключ apk в `~/.seedex/apk-sign.key` и пара usign в `~/.seedex/opkg-sign.key` и `opkg-sign.pub`. Без них пакеты не подписаны, и `install.sh` ставит их без проверки подписи.
 
 ## Структура проекта
 
@@ -42,9 +42,9 @@
 make build
 ```
 
-Команда собирает `seedex-box` и `luci-app-seedex` в `build/noarch/` вместе с индексом фида и кладёт публичный ключ в `build/keys/`.
+Команда собирает `seedex-box` и `luci-app-seedex` в `build/noarch/` как `.apk` для OpenWrt 25.x и `.ipk` для 24.10, вместе с обоими индексами фида, и кладёт публичные ключи в `build/keys/`.
 
-Чтобы установить сборку на роутер, скопируйте `install.sh`, `build/keys` и `build/noarch` на роутер и выполните там `sh install.sh noarch/*.apk`.
+Чтобы установить сборку на роутер, скопируйте `install.sh`, `build/keys` и `build/noarch` на роутер и выполните там `sh install.sh noarch/*.apk`, а на 24.10 — `sh install.sh noarch/*.ipk`.
 
 ## Линт
 

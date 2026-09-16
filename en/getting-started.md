@@ -7,7 +7,7 @@ This page takes you from two empty machines to a router that sends its traffic t
 You need the following:
 
 * A server running Ubuntu 24.04 with a public IP address and root access.
-* A router running OpenWrt 25.x or later with outbound internet access.
+* A router running OpenWrt 24.10.2 or later with outbound internet access.
 
 {% hint style="info" %}
 Any other AmneziaWG or sing-box server works too. The router accepts their native client configs through `sdx import`. The steps on this page assume seedex-agent.

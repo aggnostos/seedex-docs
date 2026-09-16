@@ -6,8 +6,8 @@ This page describes how the seedex-openwrt repository is laid out and how to bui
 
 * Docker, for the build. It hosts the apk-tools that builds the packages.
 * shfmt 3.13 and shellcheck 0.11, for the lint.
-* A router running OpenWrt 25.x or later with `apk`, to install a build.
-* Optionally, an apk signing key in `~/.seedex/apk-sign.key`. Without the key, the packages are unsigned and `install.sh` installs them with `--allow-untrusted`.
+* A router running OpenWrt 24.10.2 or later, to install a build.
+* Optionally, signing keys: an apk key in `~/.seedex/apk-sign.key` and a usign key pair in `~/.seedex/opkg-sign.key` and `opkg-sign.pub`. Without them, the packages are unsigned and `install.sh` installs them without signature checks.
 
 ## Project structure
 
@@ -42,9 +42,9 @@ Run the following command:
 make build
 ```
 
-The command builds `seedex-box` and `luci-app-seedex` into `build/noarch/`, together with the feed index, and puts the public key in `build/keys/`.
+The command builds `seedex-box` and `luci-app-seedex` into `build/noarch/` as `.apk` for OpenWrt 25.x and `.ipk` for 24.10, together with both feed indexes, and puts the public keys in `build/keys/`.
 
-To install the build on a router, copy `install.sh`, `build/keys`, and `build/noarch` to the router and run `sh install.sh noarch/*.apk` there.
+To install the build on a router, copy `install.sh`, `build/keys`, and `build/noarch` to the router and run `sh install.sh noarch/*.apk` there, or `sh install.sh noarch/*.ipk` on 24.10.
 
 ## Lint
 
