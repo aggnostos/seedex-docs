@@ -1,0 +1,19 @@
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  title: Seedex
+  structure:
+    - type: space
+      key: en
+      title: English
+      path: en
+      default: true
+      content:
+        directory: ./en
+        language: en
+    - type: space
+      key: ru
+      title: Русский
+      path: ru
+      content:
+        directory: ./ru
+        language: ru
