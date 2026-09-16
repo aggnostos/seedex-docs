@@ -44,7 +44,7 @@ Entries—VPN and proxy configs, and router rules—are addressed by name or by 
 
 ## VPN
 
-The VPN service runs AmneziaWG tunnels. Each config is a tunnel of its own. The router probes all of them and routes through the fastest live tunnel.
+The VPN service runs AmneziaWG tunnels. Each config is a tunnel of its own. The router probes all of them and routes through the fastest live tunnel. A tunnel carries traffic only while the router service runs: VPN on its own brings the tunnel up but sends nothing through it.
 
 * `sdx vpn` shows whether the service runs and lists every config. `[*]` marks the config that carries traffic. Reachable configs show their RTT.
 * `sdx vpn show [#|name ...]` lists the configs with their tunnel interface and file, or shows the named configs with their contents.
@@ -55,7 +55,7 @@ The VPN service runs AmneziaWG tunnels. Each config is a tunnel of its own. The 
 
 ## Proxy
 
-The proxy service runs a sing-box tunnel. Every config contributes its outbounds to one sing-box instance, which picks the best outbound by URL test. The router sees the result as a single tunnel next to the VPN tunnels.
+The proxy service runs a sing-box tunnel. Every config contributes its outbounds to one sing-box instance, which picks the best outbound by URL test. The router sees the result as a single tunnel next to the VPN tunnels. As with VPN, traffic goes through the proxy only while the router service runs.
 
 * `sdx proxy` shows whether the service runs and lists every config. The outbound that sing-box uses shows the tunnel's RTT. `[*]` means that the router routes through the proxy.
 * `sdx proxy show [#|name ...]` lists the configs with their files, or shows the named configs with their outbounds.
@@ -69,7 +69,7 @@ The proxy service runs a sing-box tunnel. Every config contributes its outbounds
 
 ## Router
 
-The router service decides where traffic goes. A default route sends all traffic either through the tunnel or straight to the provider, and rules override it for specific domains, IP addresses, subnets, lists, or devices. A watchdog probes every tunnel and keeps the tunnel traffic on the fastest one. A kill switch makes sure that traffic meant for the tunnel never leaves through the provider in the clear: when no tunnel is up, those connections are blocked until a tunnel comes back.
+The router service decides where traffic goes, and without it the tunnels stay idle: VPN and proxy only provide the tunnels, the router service is what steers traffic into them. A default route sends all traffic either through the tunnel or straight to the provider, and rules override it for specific domains, IP addresses, subnets, lists, or devices. A watchdog probes every tunnel and keeps the tunnel traffic on the fastest one. A kill switch makes sure that traffic meant for the tunnel never leaves through the provider in the clear: when no tunnel is up, those connections are blocked until a tunnel comes back.
 
 ### Rules
 
