@@ -51,7 +51,7 @@ Any other AmneziaWG or sing-box server works too. The router accepts their nativ
    wget -O - https://aggnostos.github.io/seedex-openwrt/install.sh | sh
    ```
 
-   The installer adds the Seedex package feed, installs `seedex-box` and `luci-app-seedex` for LuCI, and starts the DNS service. To skip LuCI, run the installer with `| sh -s -- --no-luci`.
+   The installer adds the Seedex package feed, installs `seedex-box` and `luci-app-seedex` for LuCI. Nothing is started until you say so. To skip LuCI, run the installer with `| sh -s -- --no-luci`.
 
 2. Paste the line that the server printed:
 
@@ -59,9 +59,17 @@ Any other AmneziaWG or sing-box server works too. The router accepts their nativ
    sdx link add agent https://203.0.113.5:8447 <token> <fingerprint>
    ```
 
-   The command opens a menu with the configs that the server offers. Move with the arrow keys, toggle a config with Space, and confirm with Enter. The router imports the selected configs, brings the tunnels up, and starts routing.
+   The command opens a menu with the configs that the server offers. Move with the arrow keys, toggle a config with Space, and confirm with Enter. The router imports the selected configs.
 
-3. Check the status:
+3. Start the services:
+
+   ```sh
+   sdx start
+   ```
+
+   The tunnels come up, the router starts routing, and the DNS service takes over the resolver.
+
+4. Check the status:
 
    ```
    $ sdx
