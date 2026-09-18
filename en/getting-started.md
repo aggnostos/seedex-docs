@@ -21,18 +21,19 @@ The installer adds the Seedex package feed, installs `seedex-box` and `luci-app-
 
 ## Use your own servers
 
-If you already have an AmneziaWG or sing-box server, the router takes its native client configs as they are.
+If you already have a server, the router takes what its clients use: an AmneziaWG `.conf` file, a sing-box `.json` file, or a share link such as `vless://...`.
 
-1. Copy the configs to the router: an AmneziaWG `.conf` file, a sing-box `.json` file, or both.
+1. Copy the config files to the router, or keep the links at hand.
 
 2. Import them:
 
    ```sh
    sdx import awg.conf
    sdx import sing-box.json
+   sdx import 'vless://...'
    ```
 
-   The file name becomes the config name. A directory imports every config in it.
+   The file name becomes the config name, and a link brings its own name. A directory imports every config in it, and a text file with one link per line imports every link.
 
 3. Apply the changes:
 
