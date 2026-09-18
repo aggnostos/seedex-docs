@@ -18,6 +18,7 @@ This page describes how the seedex-openwrt repository is laid out and how to bui
 * `usr/lib/seedex/common.sh`: Shared helpers: UCI, nftables sets, probes, and status lines.
 * `usr/lib/seedex/service.sh`: What every service shares: entries, apply, enable, and import.
 * `usr/lib/seedex/vpn.sh`, `proxy.sh`, `router.sh`, and `dns.sh`: One library per service.
+* `usr/lib/seedex/vpn/awg.sh` and `wg.sh`: VPN protocol modules. Each defines `vpn_<proto>_detect`, `_validate`, `_endpoints`, `_up`, and `_down`; both delegate to `usr/lib/seedex/wireguard.sh`. The VPN service and the importer find protocols through these modules and don't know their names.
 * `usr/lib/seedex/link.sh`: The link: pairing, sync, selection, and remote commands.
 * `etc/init.d/seedex`: The umbrella service that starts the others in order.
 * `etc/init.d/seedex-*`: One procd service per module.

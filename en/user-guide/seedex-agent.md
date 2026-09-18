@@ -25,14 +25,19 @@ You can also run every command on this page from the router as `sdx link <name> 
 
 ## VPN
 
-The VPN service is an AmneziaWG server. The obfuscation parameters are generated for the installation, so no two servers look alike on the wire. Every client gets the same set.
+The VPN service runs WireGuard (WG) and AmneziaWG (AWG) servers, one per protocol: `awg` (AWG, with obfuscation parameters generated for the installation so that no two servers look alike on the wire) and `wg` (plain WG, for clients that don't speak AWG). Each protocol has its own port, subnet, and interface, and comes up when its first client is added.
 
-* `sdx vpn` shows whether the service runs, the interface, the port, and the clients.
-* `sdx vpn add [<name>]` adds a client. It generates the keys and a preshared key, assigns the next free address, adds a peer to the running interface without restarting it, and writes a client config. Without a name, clients are numbered.
-* `sdx vpn remove <name>` revokes a client. `sdx vpn remove --all` revokes every client.
-* `sdx vpn config` shows the server's endpoint, public key, and obfuscation parameters.
-* `sdx vpn export [<name>] [-o <dir>]` writes the client configs, one or all, as `.conf` files that `sdx import` accepts on the router. With a link, you don't need this: the router pulls the configs itself.
-* `sdx vpn rotate` generates server keys and obfuscation parameters again. Every existing client stops working. Add the clients again.
+{% hint style="warning" %}
+Plain WG is recognized by deep packet inspection: on networks that filter it, the handshake goes through and the tunnel dies seconds later. From Russia and similar networks, use `awg`. Use `wg` on networks without such filtering, or to check a server before its clients are set up.
+{% endhint %}
+
+* `sdx vpn` shows whether the service runs and lists the configured protocols with their ports and clients.
+* `sdx vpn add <protocol> [<name>]` adds a client. It generates the keys and a preshared key, assigns the next free address, adds a peer to the running interface without restarting it, and writes a client config. The first client also sets the protocol up. Without a name, clients are numbered.
+* `sdx vpn remove <protocol> <name>` revokes a client. `sdx vpn remove <protocol> --all` revokes every client of the protocol.
+* `sdx vpn config [<protocol>]` shows the endpoint, public key, and, for `awg`, the obfuscation parameters.
+* `sdx vpn export [<protocol> [<name>]] [-o <dir>]` writes the client configs as `.conf` files that `sdx import` accepts on the router. Files are named `<server>-<protocol>-<name>.conf`. With a link, you don't need this: the router pulls the configs itself.
+* `sdx vpn rotate [<protocol>]` generates server keys and, for `awg`, obfuscation parameters again. Every client of the protocol stops working. Add the clients again.
+* `sdx vpn start`, `stop`, and `restart` take an optional protocol.
 
 ## Proxy
 

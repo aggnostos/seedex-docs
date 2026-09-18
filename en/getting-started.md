@@ -1,13 +1,13 @@
 # Getting started
 
-This page takes you from a plain router to one that sends its traffic through servers you own. Seedex works with any AmneziaWG or sing-box server: bring the client configs you already have, or set up a server with seedex-agent and let the router pull its configs from there.
+This page takes you from a plain router to one that sends its traffic through servers you own. Seedex works with any WireGuard (WG), AmneziaWG (AWG), or sing-box server: bring the client configs you already have, or set up a server with seedex-agent and let the router pull its configs from there.
 
 ## Before you begin
 
 You need the following:
 
 * A router running OpenWrt 24.10.2 or later with outbound internet access.
-* A server: any AmneziaWG or sing-box server with its client configs, or a server running Ubuntu 24.04 with a public IP address and root access for seedex-agent.
+* A server: any WG, AWG, or sing-box server with its client configs, or a server running Ubuntu 24.04 with a public IP address and root access for seedex-agent.
 
 ## Install seedex-box
 
@@ -21,7 +21,7 @@ The installer adds the Seedex package feed, installs `seedex-box` and `luci-app-
 
 ## Use your own servers
 
-If you already have a server, the router takes what its clients use: an AmneziaWG `.conf` file, a sing-box `.json` file, or a share link such as `vless://...`.
+If you already have a server, the router takes what its clients use: a WG or AWG `.conf` file, a sing-box `.json` file, or a share link such as `vless://...`.
 
 1. Copy the config files to the router, or keep the links at hand.
 
@@ -29,6 +29,7 @@ If you already have a server, the router takes what its clients use: an AmneziaW
 
    ```sh
    sdx import awg.conf
+   sdx import wg.conf
    sdx import sing-box.json
    sdx import 'vless://...'
    ```
@@ -55,7 +56,7 @@ If you have a server but nothing on it yet, seedex-agent sets it up.
    wget -O - https://github.com/aggnostos/seedex-agent/releases/latest/download/install.sh | bash
    ```
 
-   The installer downloads the latest release and installs the `sdx` executable, AmneziaWG, a sing-box, and the Link API binary. It generates the server keys, opens the ports, and enables the services. To update later, run the same command again.
+   The installer downloads the latest release and installs the `sdx` executable, AWG, WG, sing-box, and the Link API binary. It generates the server keys, opens the ports, and enables the services. To update later, run the same command again.
 
 2. Start the services:
 
@@ -63,9 +64,11 @@ If you have a server but nothing on it yet, seedex-agent sets it up.
    sdx start
    ```
 
-3. Add a proxy protocol. For example, VLESS Reality on port 443:
+3. Add VPN clients for the router and a proxy protocol. For example, an AWG client, a WG client, and VLESS Reality on port 443. On a network that filters WG, such as Russia, only the AWG client works; the router picks the fastest live tunnel by itself:
 
    ```sh
+   sdx vpn add awg router
+   sdx vpn add wg router
    sdx proxy add vless 443
    ```
 
@@ -120,6 +123,7 @@ Run `sdx`:
    [*] VPN:
      Configs:
        [ ] awg         362 ms
+       [ ] wg          324 ms
 
    [*] Proxy:
      Configs:
@@ -132,7 +136,7 @@ Run `sdx`:
      Intercept:  on
 
    Link:
-     [*] admin        https://203.0.113.5:8447         1 vpn, 2 proxy, 4 min ago
+     [*] admin        https://203.0.113.5:8447         2 vpn, 2 proxy, 4 min ago
    ```
 
 The **Uplink** section shows the tunnel that carries the traffic. A running service is marked `[*]`.

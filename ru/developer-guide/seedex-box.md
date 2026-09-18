@@ -18,6 +18,7 @@
 * `usr/lib/seedex/common.sh`: общие помощники: UCI, наборы nftables, пробы и строки статуса.
 * `usr/lib/seedex/service.sh`: общее для всех сервисов: записи, apply, enable и import.
 * `usr/lib/seedex/vpn.sh`, `proxy.sh`, `router.sh` и `dns.sh`: по библиотеке на сервис.
+* `usr/lib/seedex/vpn/awg.sh` и `wg.sh`: модули VPN-протоколов. Каждый определяет `vpn_<proto>_detect`, `_validate`, `_endpoints`, `_up` и `_down`; оба опираются на `usr/lib/seedex/wireguard.sh`. Сервис VPN и импорт находят протоколы через эти модули и не знают их имён.
 * `usr/lib/seedex/link.sh`: линк: соединение, синхронизация, выбор и удалённые команды.
 * `etc/init.d/seedex`: сервис-зонтик, который запускает остальные по порядку.
 * `etc/init.d/seedex-*`: по procd-сервису на модуль.

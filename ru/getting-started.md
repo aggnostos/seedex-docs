@@ -1,13 +1,13 @@
 # Начало работы
 
-Эта страница проводит от обычного роутера до роутера, который отправляет трафик через серверы, которыми владеете вы. Seedex работает с любым сервером AmneziaWG или sing-box: принесите клиентские конфиги, которые у вас уже есть, или разверните сервер с seedex-agent, и роутер будет забирать конфиги оттуда сам.
+Эта страница проводит от обычного роутера до роутера, который отправляет трафик через серверы, которыми владеете вы. Seedex работает с любым сервером WireGuard (WG), AmneziaWG (AWG) или sing-box: принесите клиентские конфиги, которые у вас уже есть, или разверните сервер с seedex-agent, и роутер будет забирать конфиги оттуда сам.
 
 ## Перед началом
 
 Вам понадобится:
 
 * Роутер на OpenWrt 24.10.2 или новее с выходом в интернет.
-* Сервер: любой сервер AmneziaWG или sing-box с его клиентскими конфигами, либо сервер на Ubuntu 24.04 с публичным IP-адресом и правами root для seedex-agent.
+* Сервер: любой сервер WG, AWG или sing-box с его клиентскими конфигами, либо сервер на Ubuntu 24.04 с публичным IP-адресом и правами root для seedex-agent.
 
 ## Установите seedex-box
 
@@ -21,7 +21,7 @@ wget -O - https://aggnostos.github.io/seedex-openwrt/install.sh | sh
 
 ## Используйте свои серверы
 
-Если сервер у вас уже есть, роутер принимает то, чем пользуются его клиенты: файл `.conf` AmneziaWG, файл `.json` sing-box или ссылку вида `vless://...`.
+Если сервер у вас уже есть, роутер принимает то, чем пользуются его клиенты: файл `.conf` WG или AWG, файл `.json` sing-box или ссылку вида `vless://...`.
 
 1. Скопируйте файлы конфигов на роутер или держите ссылки под рукой.
 
@@ -29,6 +29,7 @@ wget -O - https://aggnostos.github.io/seedex-openwrt/install.sh | sh
 
    ```sh
    sdx import awg.conf
+   sdx import wg.conf
    sdx import sing-box.json
    sdx import 'vless://...'
    ```
@@ -55,7 +56,7 @@ wget -O - https://aggnostos.github.io/seedex-openwrt/install.sh | sh
    wget -O - https://github.com/aggnostos/seedex-agent/releases/latest/download/install.sh | bash
    ```
 
-   Установщик скачивает последний релиз и ставит команду `sdx`, AmneziaWG, sing-box и бинарник Link API. Он генерирует ключи сервера, открывает порты и включает сервисы. Чтобы обновиться позже, запустите ту же команду ещё раз.
+   Установщик скачивает последний релиз и ставит команду `sdx`, AWG, WG, sing-box и бинарник Link API. Он генерирует ключи сервера, открывает порты и включает сервисы. Чтобы обновиться позже, запустите ту же команду ещё раз.
 
 2. Запустите сервисы:
 
@@ -63,9 +64,11 @@ wget -O - https://aggnostos.github.io/seedex-openwrt/install.sh | sh
    sdx start
    ```
 
-3. Добавьте прокси-протокол. Например, VLESS Reality на порту 443:
+3. Добавьте VPN-клиентов для роутера и прокси-протокол. Например, клиента AWG, клиента WG и VLESS Reality на порту 443. В сети, где фильтруют WG, например в России, работает только клиент AWG; роутер сам выбирает самый быстрый живой туннель:
 
    ```sh
+   sdx vpn add awg router
+   sdx vpn add wg router
    sdx proxy add vless 443
    ```
 
@@ -120,6 +123,7 @@ wget -O - https://aggnostos.github.io/seedex-openwrt/install.sh | sh
    [*] VPN:
      Configs:
        [ ] awg         362 ms
+       [ ] wg          324 ms
 
    [*] Proxy:
      Configs:
@@ -132,7 +136,7 @@ wget -O - https://aggnostos.github.io/seedex-openwrt/install.sh | sh
      Intercept:  on
 
    Link:
-     [*] agent        https://203.0.113.5:8447         1 vpn, 2 proxy, 4 min ago
+     [*] admin        https://203.0.113.5:8447         2 vpn, 2 proxy, 4 min ago
    ```
 
 Раздел **Uplink** показывает туннель, который несёт трафик. Работающий сервис отмечен `[*]`.

@@ -12,7 +12,8 @@ This page describes how the seedex-agent repository is laid out and how to build
 
 * `sdx`: The command: dispatch, status, help, and firewall.
 * `lib/common.sh`: Shared helpers: firewall, systemd, and logging.
-* `lib/vpn.sh`, `lib/proxy.sh`, and `lib/link.sh`: One library per service.
+* `lib/vpn.sh`, `lib/proxy.sh`, and `lib/link.sh`: One library per service. `vpn.sh` loads the protocol modules from `lib/vpn/` and dispatches to them.
+* `lib/vpn/awg.sh` and `lib/vpn/wg.sh`: VPN protocol modules. Each defines `vpn_<proto>_<action>` functions; both delegate to `lib/wireguard.sh`, the shared WireGuard-family code, and `awg.sh` adds the obfuscation parameters and the PPA install.
 * `link/main.go`: The link API: `GET /v1/configs` and `POST /v1/run`.
 * `install.sh`: The script that users run. It downloads the release when it isn't run from a checkout.
 * `version`: The version.

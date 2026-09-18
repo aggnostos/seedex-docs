@@ -6,12 +6,12 @@ Seedex is a secure network privacy layer for OpenWrt routers: VPN and Proxy, con
 
 Seedex consists of two parts:
 
-* **Seedex OpenWrt** is a secure network privacy layer for OpenWrt routers: VPN and proxy, convenient routing, secured DNS, managed with a single command or the LuCI app. It works with any AmneziaWG or sing-box server. The source is at [github.com/aggnostos/seedex-openwrt](https://github.com/aggnostos/seedex-openwrt).
-* **Seedex Agent** is the server side: one command turns an Ubuntu server into a VPN and proxy server, AmneziaWG, sing-box, and the Link API that the router pulls its configs from. The client configs are native AmneziaWG and sing-box files, so any device with the usual apps can use the same server. The source is at [github.com/aggnostos/seedex-agent](https://github.com/aggnostos/seedex-agent).
+* **Seedex OpenWrt** is a secure network privacy layer for OpenWrt routers: VPN and proxy, convenient routing, secured DNS, managed with a single command or the LuCI app. It works with any WireGuard (WG), AmneziaWG (AWG), or sing-box server. The source is at [github.com/aggnostos/seedex-openwrt](https://github.com/aggnostos/seedex-openwrt).
+* **Seedex Agent** is the server side: one command turns an Ubuntu server into a VPN and proxy server, AWG, WG, sing-box, and the Link API that the router pulls its configs from. The client configs are native WG, AWG, and sing-box files, so any device with the usual apps can use the same server. The source is at [github.com/aggnostos/seedex-agent](https://github.com/aggnostos/seedex-agent).
 
 ## seedex-box modules
 
-* **VPN**: AmneziaWG tunnels. The router keeps traffic on the fastest live tunnel.
+* **VPN**: WG and AWG tunnels. The router keeps traffic on the fastest live tunnel.
 * **Proxy**: A sing-box tunnel built from your proxy configs. sing-box picks the best outbound itself.
 * **Router**: The routing policies which decides what goes through a tunnel, what goes straight to the provider, and what is blocked by domain, list, or device. A kill switch drops traffic when no tunnel is up.
 * **DNS**: A private resolver for the whole network, with an encrypted upstream and interception of devices that resolve on their own.
@@ -19,7 +19,7 @@ Seedex consists of two parts:
 
 ## seedex-agent modules
 
-* **VPN**: An AmneziaWG server with obfuscation parameters generated for each installation.
+* **VPN**: WG and AWG server with obfuscation parameters generated for each installation.
 * **Proxy**: A sing-box server with the protocols that you pick: VLESS Reality, Trojan, Shadowsocks, ShadowTLS, VMess, Hysteria2, TUIC, and AnyTLS.
 * **Link**: The API that the router pairs with.
 
