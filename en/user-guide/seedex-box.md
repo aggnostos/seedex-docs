@@ -81,7 +81,7 @@ A rule has a `type` that says what happens to the traffic that it matches:
 
 A rule matches either destinations or devices, never both. Device rules win over destination rules: a device pinned to `direct` stays direct even for domains that other rules send through the tunnel.
 
-Destination matchers, each repeatable:
+Destination matchers. A matcher takes one value or several separated by commas, and can be repeated:
 
 * `domain=<domain>` matches the domain and its subdomains.
 * `ip=<address or CIDR>` matches an IP address or range.
@@ -107,11 +107,11 @@ sdx router add guests type=direct client_ip=10.0.20.0/24
 * `sdx router` shows whether the service runs, the routing mode, the kill switch, the watchdog interval, and the rules.
 * `sdx router show [#|name ...]` lists the rules, or shows every field of the named rules.
 * `sdx router add <name> type=... [matchers]` adds a rule.
-* `sdx router update <#|name> ...` changes a rule. It accepts `type=`, `name=`, the list options, and the following matcher operations:
-  * `domain=`, `del-domain=`, and `clear-domains`
-  * `ip=`, `del-ip=`, and `clear-ips`
-  * `client_mac=`, `del-client_mac=`, and `clear-client_macs`
-  * `client_ip=`, `del-client_ip=`, and `clear-client_ips`
+* `sdx router update <#|name> ...` changes a rule. It accepts `type=`, `name=`, and the list options, and edits the matcher lists `domain`, `ip`, `client_mac`, and `client_ip`:
+  * `domain=` replaces the list. `domain=` empties it.
+  * `add-domain=` adds to the list.
+  * `del-domain=` removes from the list.
+  * The same forms work for `ip`, `client_mac`, and `client_ip`.
 * `sdx router enable <#|name ...>` and `disable` switch rules on or off.
 * `sdx router remove <#|name ...>` removes rules.
 * `sdx router export` prints the rules as JSON that `sdx import` accepts.
