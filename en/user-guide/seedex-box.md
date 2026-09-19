@@ -104,6 +104,15 @@ sdx router add tv type=direct client_mac=aa:bb:cc:dd:ee:ff
 sdx router add guests type=direct client_ip=10.0.20.0/24
 ```
 
+{% hint style="info" %}
+Ready-made lists by service, such as YouTube or Telegram, are at [iplist.opencck.org](https://iplist.opencck.org): pick a service and the text format, and give the URL to `list_url`, quoted because of the `&`. A rule holds one list; the domains and the IP ranges of a service are separate lists, so they take two rules. For example, YouTube through a tunnel:
+
+```sh
+sdx router add youtube type=overlay list_url='https://iplist.opencck.org/?format=text&data=domains&site=youtube.com' list_refresh=1d
+sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?format=text&data=cidr4&site=youtube.com' list_refresh=1d
+```
+{% endhint %}
+
 ### Commands
 
 * `sdx router` shows whether the service runs, the routing mode, the kill switch, the watchdog interval, and the rules.

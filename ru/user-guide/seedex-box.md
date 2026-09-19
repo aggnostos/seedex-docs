@@ -104,6 +104,15 @@ sdx router add tv type=direct client_mac=aa:bb:cc:dd:ee:ff
 sdx router add guests type=direct client_ip=10.0.20.0/24
 ```
 
+{% hint style="info" %}
+Готовые списки по сервисам, например YouTube или Telegram, есть на [iplist.opencck.org](https://iplist.opencck.org): выберите сервис и текстовый формат и передайте URL в `list_url` — в кавычках из-за `&`. В правиле один список; домены и диапазоны IP-адресов сервиса — разные списки, поэтому им нужны два правила. Например, YouTube через туннель:
+
+```sh
+sdx router add youtube type=overlay list_url='https://iplist.opencck.org/?format=text&data=domains&site=youtube.com' list_refresh=1d
+sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?format=text&data=cidr4&site=youtube.com' list_refresh=1d
+```
+{% endhint %}
+
 ### Команды
 
 * `sdx router` показывает, работает ли сервис, режим маршрутизации, kill switch, интервал watchdog и правила.
