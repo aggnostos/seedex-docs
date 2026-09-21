@@ -14,7 +14,7 @@ You need the following:
 On the router, run the installer as root:
 
 ```sh
-wget -O - https://aggnostos.github.io/seedex-openwrt/install.sh | sh
+wget -O - https://feed.seedex.net/install.sh | sh
 ```
 
 The installer adds the Seedex package feed and installs `seedex-box` and `luci-app-seedex` for LuCI. Nothing is started until you apply the first config. To skip LuCI, run the installer with `| sh -s -- --no-luci`.

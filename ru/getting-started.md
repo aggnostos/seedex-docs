@@ -14,7 +14,7 @@
 На роутере запустите установщик от root:
 
 ```sh
-wget -O - https://aggnostos.github.io/seedex-openwrt/install.sh | sh
+wget -O - https://feed.seedex.net/install.sh | sh
 ```
 
 Установщик подключает фид пакетов Seedex и ставит `seedex-box` и `luci-app-seedex` для LuCI. Ничего не запускается, пока вы не примените первый конфиг. Чтобы обойтись без LuCI, запустите установщик с `| sh -s -- --no-luci`.
