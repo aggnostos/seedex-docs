@@ -21,7 +21,7 @@ This page describes how the seedex-openwrt repository is laid out and how to bui
 * `usr/lib/seedex/vpn/awg.sh` and `wg.sh`: VPN protocol modules. Each defines `vpn_<proto>_detect`, `_validate`, `_endpoints`, `_up`, and `_down`; both delegate to `usr/lib/seedex/wireguard.sh`. The VPN service and the importer find protocols through these modules and don't know their names.
 * `usr/lib/seedex/link.sh`: The link: pairing, sync, selection, and remote commands.
 * `etc/init.d/seedex`: The umbrella service that starts the others in order.
-* `etc/init.d/seedex-*`: One procd service per module.
+* `etc/init.d/seedex-*`: One procd service per module. An init script holds only what starts and stops its service and helpers nobody else calls; anything used by a second script or by `sdx` lives in `usr/lib/seedex/`.
 * `etc/config/seedex-*`: Documented UCI configs, empty by default.
 * `etc/hotplug.d/net/50-seedex-proxy`: Attaches the proxy interface when sing-box brings it up.
 
