@@ -1,6 +1,6 @@
 # Trademarks
 
-The name **Seedex**, the names **Seedex OpenWrt** and **Seedex Agent**, and the Seedex logo (the "marks") identify the Seedex project and the software it publishes. The marks are unregistered trademarks of the Seedex project.
+The marks of the Seedex project are the name **Seedex**, the names **Seedex OpenWrt** and **Seedex Agent**, plus the Seedex logo. They identify the project and the software it publishes. The marks are unregistered trademarks.
 
 The source code is available under the license of its repository: [GPL-2.0](https://github.com/aggnostos/seedex-openwrt/blob/main/LICENSE) for seedex-openwrt and [AGPL-3.0](https://github.com/aggnostos/seedex-agent/blob/main/LICENSE) for seedex-agent. The license covers the code only. It does not grant any right to use the marks, and this policy does not change the license.
 
@@ -24,7 +24,7 @@ You may not, without permission:
 
 ## Modified versions and forks
 
-If you distribute a modified version of the software, remove the Seedex name and logo from the product, the packages, and the user interface, and give it a name of your own. You may keep the notices required by the license and a truthful statement that your version is derived from Seedex.
+If you distribute a modified version of the software, give it a name of your own. Remove the Seedex name, along with the logo, from the product, the packages, and the user interface. You may keep the notices required by the license and a truthful statement that your version is derived from Seedex.
 
 ## Logo files
 
