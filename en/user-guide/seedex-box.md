@@ -14,9 +14,9 @@ This page describes the `sdx` command on the router and the LuCI app.
 
 ### Apply changes
 
-Changes that you make with `sdx`—adding, removing, enabling, updating, and settings—are pending until you apply them.
+Changes that you make with `sdx`—adding, removing, enabling, updating, and changing settings—are pending until you apply them.
 
-* `sdx apply` saves the pending changes and restarts the service.
+* `sdx apply` saves the pending changes and restarts the affected services.
 * `sdx revert` drops the pending changes.
 * `sdx changes` shows the pending changes.
 
@@ -38,7 +38,7 @@ Entries—VPN and proxy configs, and router rules—are addressed by name or by 
 
 ### Router-wide actions
 
-* `sdx import <path|link>` imports a config file, every config in a directory, or a proxy share link. A WireGuard (WG) or AmneziaWG (AWG) `.conf` file goes to `vpn`, a sing-box `.json` file goes to `proxy`, and a rules `.json` file goes to `router`. The file name becomes the entry name. A name that is in use is refused.
+* `sdx import <path|link>` imports a config file, every config in a directory, or a proxy share link. A WireGuard (WG) or AmneziaWG (AWG) `.conf` file goes to `vpn`, a sing-box `.json` file goes to `proxy`, and a rules `.json` file goes to `router`. The file name becomes the entry name. A name that is already in use is refused.
   * Links: `vless://`, `trojan://`, `ss://`, `vmess://`, `hysteria2://` (`hy2://`), `tuic://`, and `anytls://`, as clients and panels share them. The link becomes a `proxy` config named after its `#tag`. A text file with one link per line imports every link.
   * Not supported in links: Shadowsocks plugins, VMess header obfuscation, Hysteria port ranges, and `pinSHA256`. Links for TLS protocols usually carry `insecure=1`, which skips certificate checks; a sing-box `.json` with the certificate is the safer form.
 * `sdx logs` shows the Seedex lines of the system log. Arguments are passed to `logread`, so `sdx logs -f` follows the log.
@@ -46,7 +46,7 @@ Entries—VPN and proxy configs, and router rules—are addressed by name or by 
 
 ## VPN
 
-The VPN service runs WG and AWG tunnels. Each config is a tunnel of its own: a `.conf` with AWG obfuscation parameters comes up on an `awg` interface, a plain WG `.conf` on a `wg` interface. The router probes all of them and routes through the fastest live tunnel. A tunnel carries traffic only through the router service, so starting VPN also starts the router and DNS services when they aren't running.
+The VPN service runs WG and AWG tunnels. Each config is a tunnel of its own: a `.conf` with AWG obfuscation parameters comes up on an `awg` interface, a plain WG `.conf` on a `wg` interface. The router probes all of them and routes through the fastest live tunnel. Traffic enters a tunnel only through the router service, so starting VPN also starts the router and DNS services when they aren't running.
 
 * `sdx vpn` shows whether the service runs and lists every config. `[*]` marks the config that carries traffic. Reachable configs show their RTT.
 * `sdx vpn show [#|name ...]` lists the configs with their tunnel interface and file, or shows the named configs with their contents.
@@ -83,7 +83,9 @@ A rule has a `type` that says what happens to the traffic that it matches:
 
 A rule matches either destinations or devices, never both. Device rules win over destination rules: a device pinned to `direct` stays direct even for domains that other rules send through the tunnel.
 
-Destination matchers. A matcher takes one value or several separated by commas, and can be repeated:
+A matcher takes one value or several separated by commas and can be repeated.
+
+Destination matchers:
 
 * `domain=<domain>` matches the domain and its subdomains.
 * `ip=<address or CIDR>` matches an IP address or range.
@@ -119,7 +121,7 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
 * `sdx router show [#|name ...]` lists the rules, or shows every field of the named rules.
 * `sdx router add <name> type=... [matchers]` adds a rule.
 * `sdx router update <#|name> ...` changes a rule. It accepts `type=`, `name=`, and the list options, and edits the matcher lists `domain`, `ip`, `client_mac`, and `client_ip`:
-  * `domain=` replaces the list. `domain=` empties it.
+  * `domain=<values>` replaces the list. An empty `domain=` empties it.
   * `add-domain=` adds to the list.
   * `del-domain=` removes from the list.
   * The same forms work for `ip`, `client_mac`, and `client_ip`.

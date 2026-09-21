@@ -4,7 +4,7 @@ This page describes how the seedex-agent repository is laid out and how to build
 
 ## Requirements
 
-* Go 1.22, for the build of the link API.
+* Go 1.22, to build the Link API.
 * shfmt 3.13 and shellcheck 0.11, for the lint.
 * A server running Ubuntu 24.04, to install a build.
 
@@ -14,7 +14,7 @@ This page describes how the seedex-agent repository is laid out and how to build
 * `lib/common.sh`: Shared helpers: firewall, systemd, and logging.
 * `lib/vpn.sh`, `lib/proxy.sh`, and `lib/link.sh`: One library per service. `vpn.sh` loads the protocol modules from `lib/vpn/` and dispatches to them.
 * `lib/vpn/awg.sh` and `lib/vpn/wg.sh`: VPN protocol modules. Each defines `vpn_<proto>_<action>` functions; both delegate to `lib/wireguard.sh`, the shared WireGuard-family code, and `awg.sh` adds the obfuscation parameters and the PPA install.
-* `link/main.go`: The link API: `GET /v1/configs` and `POST /v1/run`.
+* `link/main.go`: The Link API: `GET /v1/configs` and `POST /v1/run`.
 * `install.sh`: The script that users run. It downloads the release when it isn't run from a checkout.
 * `version`: The version.
 

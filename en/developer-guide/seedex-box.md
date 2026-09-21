@@ -4,7 +4,7 @@ This page describes how the seedex-openwrt repository is laid out and how to bui
 
 ## Requirements
 
-* Docker, for the build. It hosts the apk-tools that builds the packages.
+* Docker, for the build. It hosts apk-tools, which builds the packages.
 * shfmt 3.13 and shellcheck 0.11, for the lint.
 * A router running OpenWrt 24.10.2 or later, to install a build.
 * Optionally, signing keys: an apk key in `~/.seedex/apk-sign.key` and a usign key pair in `~/.seedex/opkg-sign.key` and `opkg-sign.pub`. Without them, the packages are unsigned and `install.sh` installs them without signature checks.

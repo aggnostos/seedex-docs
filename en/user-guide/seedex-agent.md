@@ -36,7 +36,7 @@ Plain WG is recognized by deep packet inspection: on networks that filter it, th
 * `sdx vpn remove <protocol> <name>` revokes a client. `sdx vpn remove <protocol> --all` revokes every client of the protocol.
 * `sdx vpn config [<protocol>]` shows the endpoint, public key, and, for `awg`, the obfuscation parameters.
 * `sdx vpn export [<protocol> [<name>]] [-o <dir>]` writes the client configs as `.conf` files that `sdx import` accepts on the router. Files are named `<server>-<protocol>-<name>.conf`. With a link, you don't need this: the router pulls the configs itself.
-* `sdx vpn rotate [<protocol>]` generates server keys and, for `awg`, obfuscation parameters again. Every client of the protocol stops working. Add the clients again.
+* `sdx vpn rotate [<protocol>]` generates new server keys and, for `awg`, new obfuscation parameters. Every client of the protocol stops working. Add the clients again.
 * `sdx vpn start`, `stop`, and `restart` take an optional protocol.
 
 ## Proxy

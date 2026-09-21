@@ -14,22 +14,22 @@
 `seedex-box/files/` содержит пакет роутера:
 
 * `usr/bin/sdx`: команда: диспетчер, статус и help.
-* `usr/bin/seedex-router-watchdog`: пробует туннели и переключает overlay.
-* `usr/lib/seedex/common.sh`: общие помощники: UCI, наборы nftables, пробы и строки статуса.
+* `usr/bin/seedex-router-watchdog`: проверяет туннели и переключает overlay.
+* `usr/lib/seedex/common.sh`: общие вспомогательные функции: UCI, наборы nftables, проверки и строки статуса.
 * `usr/lib/seedex/service.sh`: общее для всех сервисов: записи, apply, enable и import.
 * `usr/lib/seedex/vpn.sh`, `proxy.sh`, `router.sh` и `dns.sh`: по библиотеке на сервис.
 * `usr/lib/seedex/vpn/awg.sh` и `wg.sh`: модули VPN-протоколов. Каждый определяет `vpn_<proto>_detect`, `_validate`, `_endpoints`, `_up` и `_down`; оба опираются на `usr/lib/seedex/wireguard.sh`. Сервис VPN и импорт находят протоколы через эти модули и не знают их имён.
 * `usr/lib/seedex/link.sh`: линк: соединение, синхронизация, выбор и удалённые команды.
-* `etc/init.d/seedex`: сервис-зонтик, который запускает остальные по порядку.
+* `etc/init.d/seedex`: объединяющий сервис, который запускает остальные по порядку.
 * `etc/init.d/seedex-*`: по procd-сервису на модуль.
 * `etc/config/seedex-*`: документированные UCI-конфиги, по умолчанию пустые.
-* `etc/hotplug.d/net/50-seedex-proxy`: подключает интерфейс proxy, когда sing-box его поднимает.
+* `etc/hotplug.d/net/50-seedex-proxy`: подключает интерфейс Proxy, когда sing-box его поднимает.
 
 `seedex-box/package/` содержит скрипты apk для установки, обновления и удаления.
 
 `luci-app-seedex/files/` содержит приложение для LuCI:
 
-* `usr/libexec/rpcd/luci.seedex`: rpcd-бэкенд, с которым говорит LuCI. Он запускает `sdx`.
+* `usr/libexec/rpcd/luci.seedex`: rpcd-бэкенд, с которым общается LuCI. Он запускает `sdx`.
 * `www/luci-static/resources/seedex/api.js`: JavaScript-клиент бэкенда и общие виджеты.
 * `www/luci-static/resources/view/seedex/*.js`: по представлению на вкладку.
 

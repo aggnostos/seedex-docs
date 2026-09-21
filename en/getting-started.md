@@ -17,7 +17,7 @@ On the router, run the installer as root:
 wget -O - https://aggnostos.github.io/seedex-openwrt/install.sh | sh
 ```
 
-The installer adds the Seedex package feed, installs `seedex-box` and `luci-app-seedex` for LuCI. Nothing is started until you apply the first config. To skip LuCI, run the installer with `| sh -s -- --no-luci`.
+The installer adds the Seedex package feed and installs `seedex-box` and `luci-app-seedex` for LuCI. Nothing is started until you apply the first config. To skip LuCI, run the installer with `| sh -s -- --no-luci`.
 
 ## Use your own servers
 
@@ -56,7 +56,7 @@ If you have a server but nothing on it yet, seedex-agent sets it up.
    wget -O - https://github.com/aggnostos/seedex-agent/releases/latest/download/install.sh | bash
    ```
 
-   The installer downloads the latest release and installs the `sdx` executable, AWG, WG, sing-box, and the Link API binary. It generates the server keys, opens the ports, and enables the services. To update later, run the same command again.
+   The installer downloads the latest release and installs the `sdx` command, AWG, WG, sing-box, and the Link API binary. It generates the server keys, opens the ports, and enables the services. To update later, run the same command again.
 
 2. Start the services:
 
@@ -64,7 +64,7 @@ If you have a server but nothing on it yet, seedex-agent sets it up.
    sdx start
    ```
 
-3. Add VPN clients for the router and a proxy protocol. For example, an AWG client, a WG client, and VLESS Reality on port 443. On a network that filters WG, such as Russia, only the AWG client works; the router picks the fastest live tunnel by itself:
+3. Add VPN clients for the router and a proxy protocol. For example, an AWG client, a WG client, and VLESS Reality on port 443. On a network that filters WG, such as in Russia, only the AWG client works; the router picks the fastest live tunnel by itself:
 
    ```sh
    sdx vpn add awg router
@@ -104,46 +104,46 @@ From then on, the router pulls the configs from the server by itself, and `sdx l
 
 Run `sdx`:
 
-   ```
-   $ sdx
-   seedex v0.1.0
+```
+$ sdx
+seedex v0.1.0
 
-   Uplink:
-     [*] Internet             118 ms
-     [*] Overlay (anytls)     286 ms
+Uplink:
+  [*] Internet             118 ms
+  [*] Overlay (anytls)     286 ms
 
-   [*] Router:
-     Routing:      overlay
-     Kill switch:  on
-     Watchdog:     every 30s
-     Rules:
-       [*] ads                block    list
-       [*] tv                 direct   1 client
+[*] Router:
+  Routing:      overlay
+  Kill switch:  on
+  Watchdog:     every 30s
+  Rules:
+    [*] ads                block    list
+    [*] tv                 direct   1 client
 
-   [*] VPN:
-     Configs:
-       [ ] awg         362 ms
-       [ ] wg          324 ms
+[*] VPN:
+  Configs:
+    [ ] awg         362 ms
+    [ ] wg          324 ms
 
-   [*] Proxy:
-     Configs:
-       [*] anytls      286 ms
-       [ ] vless
+[*] Proxy:
+  Configs:
+    [*] anytls      286 ms
+    [ ] vless
 
-   [*] DNS:
-     Upstream:   encrypted
-     Resolver:   cloudflare
-     Intercept:  on
+[*] DNS:
+  Upstream:   encrypted
+  Resolver:   cloudflare
+  Intercept:  on
 
-   Link:
-     [*] admin        https://203.0.113.5:8447         2 vpn, 2 proxy, 4 min ago
-   ```
+Link:
+  [*] admin        https://203.0.113.5:8447         2 vpn, 2 proxy, 4 min ago
+```
 
 The **Uplink** section shows the tunnel that carries the traffic. A running service is marked `[*]`.
 
 ## Troubleshoot
 
-If the router doesn't route traffic use:
+If the router doesn't route traffic, use:
 
 * `sdx logs` to see the service logs.
 * `sdx restart` to restart services in the right order.
