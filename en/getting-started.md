@@ -107,9 +107,6 @@ From then on, the router pulls the configs from the server by itself, and `sdx l
 Run `sdx`:
 
 ```
-$ sdx
-seedex v0.1.0
-
 Uplink:
   [*] Internet             118 ms
   [*] Overlay (anytls)     286 ms
