@@ -1,5 +1,31 @@
 # Trademarks
 
-The name Seedex, the names Seedex OpenWrt and Seedex Agent, and the Seedex logo are trademarks of the Seedex project. The code licenses (GPL-2.0 for seedex-openwrt, AGPL-3.0 for seedex-agent) cover the code only and grant no right to use them.
+The name **Seedex**, the names **Seedex OpenWrt** and **Seedex Agent**, and the Seedex logo (the "marks") identify the Seedex project and the software it publishes. The marks are unregistered trademarks of the Seedex project.
 
-The policy lives with the code and the logo files: [seedex-openwrt/TRADEMARK.md](https://github.com/aggnostos/seedex-openwrt/blob/main/TRADEMARK.md) and [seedex-agent/TRADEMARK.md](https://github.com/aggnostos/seedex-agent/blob/main/TRADEMARK.md). The two files are identical. In short: refer to Seedex freely and say truthfully that your software works with it, but don't name a fork or a modified build Seedex and don't use the logo as your own.
+The source code is available under the license of its repository: [GPL-2.0](https://github.com/aggnostos/seedex-openwrt/blob/main/LICENSE) for seedex-openwrt and [AGPL-3.0](https://github.com/aggnostos/seedex-agent/blob/main/LICENSE) for seedex-agent. The license covers the code only. It does not grant any right to use the marks, and this policy does not change the license.
+
+## What you may do
+
+You may, without asking:
+
+* Use the name Seedex to refer to the project or its software, including in articles, talks, documentation, reviews, and package descriptions.
+* State truthfully that your software works with Seedex, is built on Seedex, or is derived from Seedex.
+* Distribute unmodified Seedex packages and unmodified builds of the source code under the name Seedex.
+* Use the marks for fair, descriptive, and non-commercial purposes such as teaching or comparison.
+
+## What you may not do
+
+You may not, without permission:
+
+* Use Seedex, or a name confusingly similar to it, as the name of a modified version, a fork, or a derived product, or in a way that suggests the project endorses it.
+* Use the Seedex logo, or a modified version of it, as the logo of your own project, product, or service.
+* Use the marks in a company name, product name, domain name, package feed name, or social media account in a way that suggests an official connection to the project.
+* Alter the logo or combine it with other marks, except for resizing.
+
+## Modified versions and forks
+
+If you distribute a modified version of the software, remove the Seedex name and logo from the product, the packages, and the user interface, and give it a name of your own. You may keep the notices required by the license and a truthful statement that your version is derived from Seedex.
+
+## Logo files
+
+The logo files in the repositories are provided so that the software and its documentation display the logo. They are not licensed under the code license, and this policy applies to them.

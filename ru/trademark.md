@@ -4,8 +4,6 @@
 
 Исходный код доступен на условиях лицензии соответствующего репозитория: [GPL-2.0](https://github.com/aggnostos/seedex-openwrt/blob/main/LICENSE) для seedex-openwrt и [AGPL-3.0](https://github.com/aggnostos/seedex-agent/blob/main/LICENSE) для seedex-agent. Лицензия распространяется только на код. Она не даёт права использовать знаки, а настоящая политика не меняет условия лицензии.
 
-Эта страница — перевод. Оригинал на английском лежит в репозиториях: [seedex-openwrt/TRADEMARK.md](https://github.com/aggnostos/seedex-openwrt/blob/main/TRADEMARK.md) и [seedex-agent/TRADEMARK.md](https://github.com/aggnostos/seedex-agent/blob/main/TRADEMARK.md).
-
 ## Что можно
 
 Без разрешения вы можете:
