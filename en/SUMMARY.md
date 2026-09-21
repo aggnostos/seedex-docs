@@ -8,5 +8,4 @@
 * [Developer guide](developer-guide/README.md)
   * [seedex-box](developer-guide/seedex-box.md)
   * [seedex-agent](developer-guide/seedex-agent.md)
-  * [Contributing](developer-guide/contributing.md)
 * [Trademarks](trademark.md)

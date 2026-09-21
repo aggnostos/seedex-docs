@@ -33,3 +33,7 @@ To install the build on a server, copy `sdx`, `version`, `lib`, `install.sh`, an
 ## Lint
 
 `make lint` runs shfmt and shellcheck over the shell files, and `gofmt` and `go vet` over the Go code.
+
+## Contributing
+
+Bug reports, suggestions, and pull requests are welcome. The guidelines live with the code in [CONTRIBUTING.md](https://github.com/aggnostos/seedex-agent/blob/main/CONTRIBUTING.md): what to include in a bug report, the code style, how to test a change, and the commit format. Fixes to the text of this site go to [seedex-docs](https://github.com/aggnostos/seedex-docs), where the English and Russian pages mirror each other.

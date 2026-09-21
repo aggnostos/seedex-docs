@@ -8,5 +8,4 @@
 * [Для разработчиков](developer-guide/README.md)
   * [seedex-box](developer-guide/seedex-box.md)
   * [seedex-agent](developer-guide/seedex-agent.md)
-  * [Участие](developer-guide/contributing.md)
 * [Товарные знаки](trademark.md)
