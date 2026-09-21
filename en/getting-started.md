@@ -7,7 +7,7 @@ This page takes you from a plain router to one that sends its traffic through se
 You need the following:
 
 * A router running OpenWrt 24.10.2 or later with outbound internet access.
-* A server: any WG, AWG, or sing-box server with its client configs, or a server running Ubuntu 24.04 with a public IP address and root access for seedex-agent.
+* A server: any WG, AWG, or sing-box server with its client configs, or a server running Ubuntu 24.04 or later with a public IP address and root access for seedex-agent.
 
 ## Install seedex-box
 
@@ -56,21 +56,23 @@ If you have a server but nothing on it yet, seedex-agent sets it up.
    wget -O - https://github.com/aggnostos/seedex-agent/releases/latest/download/install.sh | bash
    ```
 
-   The installer downloads the latest release and installs the `sdx` command, AWG, WG, sing-box, and the Link API binary. It generates the server keys, opens the ports, and enables the services. To update later, run the same command again.
+   The installer downloads the latest release and installs the `sdx` command, AWG, WG, sing-box, and the Link API binary. It generates the server keys, opens the ports, and enables the services. Nothing is started yet. To update later, run the same command again.
 
-2. Start the services:
-
-   ```sh
-   sdx start
-   ```
-
-3. Add VPN clients for the router and a proxy protocol. For example, an AWG client, a WG client, and VLESS Reality on port 443. On a network that filters WG, such as in Russia, only the AWG client works; the router picks the fastest live tunnel by itself:
+2. Add VPN clients for the router and a proxy protocol. For example, an AWG client, a WG client, and VLESS Reality on port 443. On a network that filters WG, such as in Russia, only the AWG client works; the router picks the fastest live tunnel by itself:
 
    ```sh
    sdx vpn add awg router
    sdx vpn add wg router
    sdx proxy add vless 443
    ```
+
+3. Start the services:
+
+   ```sh
+   sdx start
+   ```
+
+   The services are not running until you start them. `sdx start` brings up every protocol that has a client or a port, so run it after the first `add`; a protocol added later starts with `sdx vpn start` or `sdx proxy start`.
 
 4. Pair a router:
 

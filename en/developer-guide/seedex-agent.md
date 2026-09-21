@@ -6,7 +6,7 @@ This page describes how the seedex-agent repository is laid out and how to build
 
 * Go 1.22, to build the Link API.
 * shfmt 3.13 and shellcheck 0.11, for the lint.
-* A server running Ubuntu 24.04, to install a build.
+* A server running Ubuntu 24.04 or later, to install a build.
 
 ## Project structure
 

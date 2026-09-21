@@ -16,7 +16,7 @@ You can also run every command on this page from the router as `sdx link <name> 
 
 ### Actions of every service
 
-* `sdx <service> start`, `stop`, and `restart` control the service. Without a service, `sdx start` starts all three services.
+* `sdx <service> start`, `stop`, and `restart` control the service. Without a service, `sdx start` starts all three services. The installer enables the services but doesn't start them, and a VPN protocol doesn't start when its first client is added: run `sdx start` after the first `add`.
 
 ### Server-wide actions
 
@@ -32,7 +32,7 @@ Plain WG is recognized by deep packet inspection: on networks that filter it, th
 {% endhint %}
 
 * `sdx vpn` shows whether the service runs and lists the configured protocols with their ports and clients.
-* `sdx vpn add <protocol> [<name>]` adds a client. It generates the keys and a preshared key, assigns the next free address, adds a peer to the running interface without restarting it, and writes a client config. The first client also sets the protocol up. Without a name, clients are numbered.
+* `sdx vpn add <protocol> [<name>]` adds a client. It generates the keys and a preshared key, assigns the next free address, adds a peer to the running interface without restarting it, and writes a client config. The first client also sets the protocol up but doesn't start it. Without a name, clients are numbered.
 * `sdx vpn remove <protocol> <name>` revokes a client. `sdx vpn remove <protocol> --all` revokes every client of the protocol.
 * `sdx vpn config [<protocol>]` shows the endpoint, public key, and, for `awg`, the obfuscation parameters.
 * `sdx vpn export [<protocol> [<name>]] [-o <dir>]` writes the client configs as `.conf` files that `sdx import` accepts on the router. Files are named `<server>-<protocol>-<name>.conf`. With a link, you don't need this: the router pulls the configs itself.
@@ -44,7 +44,7 @@ Plain WG is recognized by deep packet inspection: on networks that filter it, th
 The proxy service is a sing-box server with the protocols that you pick: `vless` (Reality), `trojan`, `shadowsocks`, `shadowtls`, `vmess`, `hysteria2`, `tuic`, and `anytls`.
 
 * `sdx proxy` shows whether the service runs and lists the protocols with their ports.
-* `sdx proxy add <protocol> <port>` adds a protocol on a port. It generates the credentials, opens the port, and restarts sing-box.
+* `sdx proxy add <protocol> <port>` adds a protocol on a port. It generates the credentials, opens the port, and restarts sing-box, or starts it if it isn't running.
 * `sdx proxy remove <protocol>` removes a protocol and closes its port.
 * `sdx proxy config` shows the connection credentials of every protocol.
 * `sdx proxy export [<protocol>] [-o <dir>]` writes the client configs, one protocol or all, as `.json` files that `sdx import` accepts on the router.
