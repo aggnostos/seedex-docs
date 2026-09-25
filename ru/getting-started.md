@@ -135,7 +135,7 @@ Uplink:
   Intercept:  on
 
 Link:
-  [*] admin        https://203.0.113.5:8447         2 vpn, 2 proxy, 4 min ago
+  [*] agent        https://203.0.113.5:8447         2 vpn, 2 proxy, 4 min ago
 ```
 
 Раздел **Uplink** показывает туннель, который несёт трафик. Работающий сервис отмечен `[*]`.

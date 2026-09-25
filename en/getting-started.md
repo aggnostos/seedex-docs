@@ -28,12 +28,11 @@ If you already have a server, the router takes what its clients use: a WG or AWG
 2. Import them:
 
    ```sh
-   sdx import awg.conf
-   sdx import wg.conf
-   sdx import sing-box.json
-   sdx import 'vless://...'
-   ```
-
+    sdx import awg.conf         # AWG
+    sdx import wg.conf          # WG
+    sdx import sing-box.json    # sing-box
+    sdx import 'vless://...'    # Supported proxy URI
+    ```
    The file name becomes the config name, and a link brings its own name. A directory imports every config in it, and a text file with one link per line imports every link.
 
 3. Apply the changes:
@@ -135,7 +134,7 @@ Uplink:
   Intercept:  on
 
 Link:
-  [*] admin        https://203.0.113.5:8447         2 vpn, 2 proxy, 4 min ago
+  [*] agent        https://203.0.113.5:8447         2 vpn, 2 proxy, 4 min ago
 ```
 
 The **Uplink** section shows the tunnel that carries the traffic. A running service is marked `[*]`.

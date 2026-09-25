@@ -1,13 +1,12 @@
 # Seedex
 
-Seedex is a secure network privacy layer for OpenWrt routers: VPN and Proxy, convenient routing, secured DNS, managed with a single command or the LuCI app, along with a self-hosted VPN and proxy server.
-
+Seedex is a simple but flexible instrument that turns an OpenWrt router into a privacy layer for the home network, sending the traffic of every device into secure WireGuard, AmneziaWG, or sing-box tunnels
 ## Parts
 
 Seedex consists of two parts:
 
-* **Seedex OpenWrt** is a secure network privacy layer for OpenWrt routers: VPN and proxy, convenient routing, secured DNS, managed with a single command or the LuCI app. It works with any WireGuard (WG), AmneziaWG (AWG), or sing-box server. The source is at [github.com/aggnostos/seedex-openwrt](https://github.com/aggnostos/seedex-openwrt).
-* **Seedex Agent** is the server side: one command turns an Ubuntu server into a VPN and proxy server: AWG, WG, sing-box, and the Link API that the router pulls its configs from. The client configs are native WG, AWG, and sing-box files, so any device with the usual apps can use the same server. The source is at [github.com/aggnostos/seedex-agent](https://github.com/aggnostos/seedex-agent).
+* **Seedex OpenWrt** is the router side: VPN and proxy, convenient routing, secured DNS, managed with a single command or the LuCI app. It works with any WireGuard, AmneziaWG, or sing-box server. Source code: [github.com/aggnostos/seedex-openwrt](https://github.com/aggnostos/seedex-openwrt).
+* **Seedex Agent** is the server side: one command turns an Ubuntu server into a VPN and proxy server: AWG, WG, sing-box, plus the Link API — the interface the router connects through. The client configs are native files of supported protocols, so any device with the usual apps can use the same server. Source code: [github.com/aggnostos/seedex-agent](https://github.com/aggnostos/seedex-agent).
 
 ## seedex-box modules
 
