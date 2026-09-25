@@ -54,7 +54,13 @@ The proxy service is a sing-box server with the protocols that you pick: `vless`
 
 ## Link
 
-The link service is the API that the router pairs with. The router pulls its configs from it and runs `sdx` on the server through it.
+The link service is the API that the router pairs with. The router pulls its configs from it and runs `sdx` on the server through it. It listens on port 8282 unless the installer was given another one:
+
+```sh
+SEEDEX_LINK_PORT=9443 wget -O - https://github.com/aggnostos/seedex-agent/releases/latest/download/install.sh | bash
+```
+
+The port is written into the systemd unit at that point, so setting the variable later changes nothing.
 
 * `sdx link` shows whether the service runs, the port, the certificate fingerprint, and the paired routers.
 * `sdx link add <router>` pairs a router. It issues a token and prints the token, the fingerprint, and the exact `sdx link add` command for the router. The token is shown once.

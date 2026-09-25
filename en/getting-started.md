@@ -86,7 +86,7 @@ If you have a server but nothing on it yet, seedex-agent sets it up.
 1. On the router, paste the line that the server printed:
 
    ```sh
-   sdx link add agent https://203.0.113.5:8447 <token> <fingerprint>
+   sdx link add agent https://203.0.113.5:8282 <token> <fingerprint>
    ```
 
    The command opens a menu with the configs that the server offers. Move with the arrow keys, toggle a config with Space, and confirm with Enter. The router imports the selected configs as pending changes.
@@ -134,7 +134,7 @@ Uplink:
   Intercept:  on
 
 Link:
-  [*] agent        https://203.0.113.5:8447         2 vpn, 2 proxy, 4 min ago
+  [*] agent        https://203.0.113.5:8282         2 vpn, 2 proxy, 4 min ago
 ```
 
 The **Uplink** section shows the tunnel that carries the traffic. A running service is marked `[*]`.
