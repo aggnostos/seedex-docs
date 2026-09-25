@@ -48,7 +48,7 @@ Entries—VPN and proxy configs, and router rules—are addressed by name or by 
     sdx import 'https://panel.example.com/sub/<token>'
     ```
 
-    The configs are a snapshot: run the command again to pick up what the panel has changed.
+    The configs are a snapshot: run the command again with `--force` to pick up what the panel has changed. Servers the panel has dropped stay on the router; remove them with `sdx proxy remove`.
   * Not supported in links: Shadowsocks plugins, VMess header obfuscation, Hysteria port ranges, and `pinSHA256`. Links for TLS protocols usually carry `insecure=1`, which skips certificate checks; a sing-box `.json` with the certificate is the safer form.
 * `sdx logs` shows the Seedex lines of the system log. Arguments are passed to `logread`, so `sdx logs -f` follows the log.
 * `sdx version` shows the installed package version.
