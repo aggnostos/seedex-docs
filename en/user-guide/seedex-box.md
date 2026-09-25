@@ -66,9 +66,9 @@ The VPN service runs WG and AWG tunnels. Each config is a tunnel of its own: a `
 
 ## Proxy
 
-The proxy service runs a sing-box tunnel. Every config contributes its outbounds to one sing-box instance, which picks the best outbound by URL test. The router sees the result as a single tunnel next to the VPN tunnels. As with VPN, starting the proxy also starts the router and DNS services when they aren't running.
+The proxy service runs one sing-box instance that gives every config its own tunnel interface: `proxy0`, `proxy1`, and so on. The router treats them like the VPN tunnels — it probes each one, routes through the fastest, and pins a rule to any of them. A config that holds several outbounds picks among them by URL test on its own interface. Names are resolved by the router's DNS service. As with VPN, starting the proxy also starts the router and DNS services when they aren't running.
 
-* `sdx proxy` shows whether the service runs and lists every config. The outbound that sing-box uses shows the tunnel's RTT. `[*]` means that the router routes through the proxy.
+* `sdx proxy` shows whether the service runs and lists every config with its RTT. `[*]` marks the config that carries traffic.
 * `sdx proxy show [#|name ...]` lists the configs with their files, or shows the named configs with their outbounds.
 * `sdx proxy enable <#|name ...>` and `disable` switch configs on or off. sing-box is rebuilt from the enabled configs at the next restart.
 * `sdx proxy remove <#|name ...>` removes configs. Their files are deleted at the next start.
@@ -91,6 +91,13 @@ A rule has a `type` that says what happens to the traffic that it matches:
 * `block` stops the domains from resolving and blocks connections to the IP addresses.
 
 A rule matches either destinations or devices, never both. Device rules win over destination rules: a device pinned to `direct` stays direct even for domains that other rules send through the tunnel.
+
+`iface=<config>` pins an `overlay` rule to one tunnel, named after its VPN or proxy config, instead of the fastest one. While that tunnel is down its traffic follows the default route of the overlay, and the kill switch still applies. Pinned rules are matched before the rest:
+
+```sh
+sdx router add work type=overlay iface=ger1-awg-router domain=intranet.example.com
+sdx router update work iface=
+```
 
 A matcher takes one value or several separated by commas and can be repeated.
 
