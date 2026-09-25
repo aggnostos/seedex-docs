@@ -60,6 +60,7 @@ The VPN service runs WG and AWG tunnels. Each config is a tunnel of its own: a `
 * `sdx vpn` shows whether the service runs and lists every config. `[*]` marks the config that carries traffic. Reachable configs show their RTT.
 * `sdx vpn show [#|name ...]` lists the configs with their tunnel interface and file, or shows the named configs with their contents.
 * `sdx vpn enable <#|name ...>` and `disable` switch configs on or off without removing them.
+* `sdx vpn reserve <#|name ...>` keeps a tunnel out of the overlay, so only rules pinned to it with `iface=` use it — a work VPN stays for work traffic even when it is the fastest tunnel. `unreserve` returns it to the pool.
 * `sdx vpn remove <#|name ...>` removes configs. Their files are deleted at the next start.
 * `sdx vpn export` prints every config in a form that `sdx import` accepts.
 * `sdx vpn reset` stops the service and drops every config with its files.
@@ -71,6 +72,7 @@ The proxy service runs one sing-box instance that gives every config its own tun
 * `sdx proxy` shows whether the service runs and lists every config with its RTT. `[*]` marks the config that carries traffic.
 * `sdx proxy show [#|name ...]` lists the configs with their files, or shows the named configs with their outbounds.
 * `sdx proxy enable <#|name ...>` and `disable` switch configs on or off. sing-box is rebuilt from the enabled configs at the next restart.
+* `sdx proxy reserve <#|name ...>` keeps a tunnel out of the overlay, so only rules pinned to it with `iface=` use it. `unreserve` returns it to the pool.
 * `sdx proxy remove <#|name ...>` removes configs. Their files are deleted at the next start.
 * `sdx proxy export` prints every config in a form that `sdx import` accepts.
 * `sdx proxy reset` stops the service and drops every config with its files.
@@ -92,7 +94,7 @@ A rule has a `type` that says what happens to the traffic that it matches:
 
 A rule matches either destinations or devices, never both. Device rules win over destination rules: a device pinned to `direct` stays direct even for domains that other rules send through the tunnel.
 
-`iface=<config>` pins an `overlay` rule to one tunnel, named after its VPN or proxy config, instead of the fastest one. While that tunnel is down its traffic follows the default route of the overlay, and the kill switch still applies. Pinned rules are matched before the rest:
+`iface=<config>` pins an `overlay` rule to one tunnel, named after its VPN or proxy config, instead of the fastest one. Pinned rules are matched before the rest. When the watchdog finds that tunnel unreachable, the rule's traffic follows the overlay's default route until it answers again, and the kill switch still applies. A pinned tunnel stays in the overlay pool unless `reserve` takes it out:
 
 ```sh
 sdx router add work type=overlay iface=ger1-awg-router domain=intranet.example.com
