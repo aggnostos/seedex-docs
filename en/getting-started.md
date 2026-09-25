@@ -126,7 +126,7 @@ Uplink:
 [*] Proxy:
   Configs:
     [*] anytls      286 ms
-    [ ] vless
+    [ ] vless       311 ms
 
 [*] DNS:
   Upstream:   encrypted
