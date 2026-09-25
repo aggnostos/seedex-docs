@@ -57,7 +57,7 @@ Entries—VPN and proxy configs, and router rules—are addressed by name or by 
 
 The VPN service runs WG and AWG tunnels. Each config is a tunnel of its own: a `.conf` with AWG obfuscation parameters comes up on an `awg` interface, a plain WG `.conf` on a `wg` interface. The router probes all of them and routes through the fastest live tunnel. Traffic enters a tunnel only through the router service, so starting VPN also starts the router and DNS services when they aren't running.
 
-* `sdx vpn` shows whether the service runs and lists every config. `[*]` marks the config that carries traffic. Reachable configs show their RTT.
+* `sdx vpn` shows whether the service runs and lists every config. `[*]` marks the config that carries traffic. Reachable configs show their RTT, and a config taken out of the overlay is marked `reserved`.
 * `sdx vpn show [#|name ...]` lists the configs with their tunnel interface and file, or shows the named configs with their contents.
 * `sdx vpn enable <#|name ...>` and `disable` switch configs on or off without removing them.
 * `sdx vpn reserve <#|name ...>` keeps a tunnel out of the overlay, so only rules pinned to it with `iface=` use it — a work VPN stays for work traffic even when it is the fastest tunnel. `unreserve` returns it to the pool.
@@ -69,7 +69,7 @@ The VPN service runs WG and AWG tunnels. Each config is a tunnel of its own: a `
 
 The proxy service runs one sing-box instance that gives every config its own tunnel interface: `proxy0`, `proxy1`, and so on. The router treats them like the VPN tunnels — it probes each one, routes through the fastest, and pins a rule to any of them. A config that holds several outbounds picks among them by URL test on its own interface. Names are resolved by the router's DNS service. As with VPN, starting the proxy also starts the router and DNS services when they aren't running.
 
-* `sdx proxy` shows whether the service runs and lists every config with its RTT. `[*]` marks the config that carries traffic.
+* `sdx proxy` shows whether the service runs and lists every config with its RTT. `[*]` marks the config that carries traffic, `reserved` a config taken out of the overlay.
 * `sdx proxy show [#|name ...]` lists the configs with their files, or shows the named configs with their outbounds.
 * `sdx proxy enable <#|name ...>` and `disable` switch configs on or off. sing-box is rebuilt from the enabled configs at the next restart.
 * `sdx proxy reserve <#|name ...>` keeps a tunnel out of the overlay, so only rules pinned to it with `iface=` use it. `unreserve` returns it to the pool.
@@ -191,7 +191,7 @@ Shows the services with **Stop** and **Restart** buttons, and the output of `sdx
 
 ### VPN
 
-Manages the VPN configs: add, edit, enable, disable, and remove.
+Manages the VPN configs: add, edit, enable, disable, remove, plus reserve and unreserve for keeping a tunnel out of the overlay.
 
 ![The VPN tab: the config list](../../assets/vpn.png)
 
