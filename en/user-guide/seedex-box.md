@@ -38,8 +38,15 @@ Entries—VPN and proxy configs, and router rules—are addressed by name or by 
 
 ### Router-wide actions
 
-* `sdx import <path|link>` imports a config file, every config in a directory, or a proxy share link. A WireGuard (WG) or AmneziaWG (AWG) `.conf` file goes to `vpn`, a sing-box `.json` file goes to `proxy`, and a rules `.json` file goes to `router`. The file name becomes the entry name. A name that is already in use is refused.
+* `sdx import <path|link|url>` imports a config file, every config in a directory, a proxy share link, or a subscription address. A WireGuard (WG) or AmneziaWG (AWG) `.conf` file goes to `vpn`, a sing-box `.json` file goes to `proxy`, and a rules `.json` file goes to `router`. The file name becomes the entry name. A name that is already in use is refused.
   * Links: `vless://`, `trojan://`, `ss://`, `vmess://`, `hysteria2://` (`hy2://`), `tuic://`, and `anytls://`, as clients and panels share them. The link becomes a `proxy` config named after its `#tag`. A text file with one link per line imports every link.
+  * Subscriptions: an `http://` or `https://` address is downloaded, then imported as its contents. Panels such as Marzban, 3x-ui, or Hiddify serve the link list base64-encoded, which the importer decodes. Quote the address, since it usually carries a query string:
+
+    ```sh
+    sdx import 'https://panel.example.com/sub/<token>'
+    ```
+
+    The configs are a snapshot: run the command again to pick up what the panel has changed.
   * Not supported in links: Shadowsocks plugins, VMess header obfuscation, Hysteria port ranges, and `pinSHA256`. Links for TLS protocols usually carry `insecure=1`, which skips certificate checks; a sing-box `.json` with the certificate is the safer form.
 * `sdx logs` shows the Seedex lines of the system log. Arguments are passed to `logread`, so `sdx logs -f` follows the log.
 * `sdx version` shows the installed package version.
