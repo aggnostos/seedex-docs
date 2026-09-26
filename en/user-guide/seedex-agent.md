@@ -58,13 +58,13 @@ The proxy service is a sing-box server with the protocols that you pick: `vless`
 
 The link service is the API that the router pairs with. The router pulls its configs from it and runs `sdx` on the server through it. It listens on port 8282 unless the installer was given another one:
 
-{% hint style="warning" %}
-Treat a router token as full access to the server's VPN and proxy services. One server is one circle of trust: do not pair routers that you do not trust with each other to the same server. Link does not expose the server's `firewall` or `link` commands, but this does not make the token suitable for separating mutually untrusted routers.
-{% endhint %}
-
 ```sh
 SEEDEX_LINK_PORT=9443 wget -O - https://github.com/aggnostos/seedex-agent/releases/latest/download/install.sh | bash
 ```
+
+{% hint style="warning" %}
+Treat a router token as full access to the server's VPN and proxy services. One server is one circle of trust: do not pair routers that you do not trust with each other to the same server. Link does not expose the server's `firewall` or `link` commands, but this does not make the token suitable for separating mutually untrusted routers.
+{% endhint %}
 
 The port is written into the systemd unit at that point, so setting the variable later changes nothing.
 
