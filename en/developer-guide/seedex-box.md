@@ -25,7 +25,7 @@ This page describes how the seedex-openwrt repository is laid out and how to bui
 * `etc/config/seedex-*`: Documented UCI configs, empty by default.
 * `etc/hotplug.d/net/50-seedex-proxy`: Attaches the proxy interface when sing-box brings it up.
 
-`seedex-box/package/` contains the apk scripts for installation, upgrade, and removal.
+`seedex-box/package/` contains the package scripts for installation, upgrade, and removal. They are included in both the apk and ipk packages.
 
 `luci-app-seedex/files/` contains the LuCI app:
 
