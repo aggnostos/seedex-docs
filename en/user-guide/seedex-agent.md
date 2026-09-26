@@ -12,7 +12,9 @@ This page describes the `sdx` command on the server.
 * `sdx <action>` runs the same action on every service that has it.
 * `sdx <service> help` lists the actions of a service.
 
-You can also run every command on this page from the router as `sdx link <name> ...`.
+From the router, `sdx link <name> ...` can show the server status and run a restricted set of
+`vpn` and `proxy` commands. Server-wide `firewall` commands and the server's own `link` commands
+are not available over Link.
 
 ### Actions of every service
 

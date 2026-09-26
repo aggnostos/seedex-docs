@@ -49,7 +49,7 @@ make build
 
 ## Линт
 
-`make lint` прогоняет shfmt и shellcheck по всем shell-файлам.
+`make lint` прогоняет shfmt и shellcheck по всем shell-файлам, проверяет синтаксис JavaScript и валидирует JSON-файлы.
 
 ## Участие
 

@@ -49,8 +49,8 @@ To install the build on a router, copy `install.sh`, `build/keys`, and `build/no
 
 ## Lint
 
-`make lint` runs shfmt and shellcheck over every shell file.
+`make lint` runs shfmt and shellcheck over every shell file, checks the JavaScript syntax, and validates the JSON files.
 
 ## Contributing
 
-Bug reports, suggestions, and pull requests are welcome. The guidelines live with the code in [CONTRIBUTING.md](https://github.com/aggnostos/seedex-openwrt/blob/main/CONTRIBUTING.md): what to include in a bug report, the code style, how to test a change, and the commit format. Fixes to the text of this site go to [seedex-docs](https://github.com/aggnostos/seedex-docs), where the English and Russian pages mirror each other.
+Bug reports, suggestions, and pull requests are welcome. The guidelines live with the code in [CONTRIBUTING.md](https://github.com/aggnostos/seedex-openwrt/blob/main/CONTRIBUTING.md): what to include in a bug report, the code style, how to test a change, and the commit format. Fixes to the text of this site go to [seedex-docs](https://github.com/aggnostos/seedex-docs), which is maintained in English and Russian.

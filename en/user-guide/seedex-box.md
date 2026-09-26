@@ -82,7 +82,7 @@ The proxy service runs one sing-box instance that gives every config its own tun
 
 ## Router
 
-The router service decides where traffic goes: VPN and proxy only provide the tunnels, and the router service steers traffic into them. A default route sends all traffic either through the tunnel or straight to the provider, and rules override it for specific domains, IP addresses, subnets, lists, or devices. A watchdog probes every tunnel and keeps the tunnel traffic on the fastest one. A kill switch makes sure that traffic meant for the tunnel never leaves through the provider in the clear: when no tunnel is up, those connections are blocked until a tunnel comes back.
+The router service decides where traffic goes: VPN and proxy only provide the tunnels, and the router service steers traffic into them. A default route sends all traffic either through the overlay or straight to the provider, and rules override it for specific domains, IP addresses, subnets, lists, or devices. A watchdog probes every tunnel and keeps the overlay traffic on the fastest live one. A kill switch makes sure that traffic meant for the overlay never leaves through the provider in the clear: when no overlay tunnel is up, those connections are blocked until one comes back. Explicitly direct rules still use the WAN.
 
 ### Rules
 
@@ -149,14 +149,14 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
 * `sdx router reset` stops the service and drops every rule.
 * `sdx router config show`, `get <key>`, and `set <key>=<value> ...` manage the settings:
   * `default_route`: Where unmatched traffic goes: `overlay` or `direct`.
-  * `kill_switch`: `1` blocks tunnel traffic when no tunnel is up. `0` lets it out through the provider in the clear.
+  * `kill_switch`: `1` blocks traffic that is meant for the overlay when no overlay tunnel is up. `0` lets that traffic out through the provider in the clear.
   * `watchdog_interval`: The number of seconds between probes of the tunnels.
   * `watchdog_url`: The URL that the probes fetch.
   * `watchdog_timeout`: The number of seconds before a probe counts as failed.
 
 ## DNS
 
-The DNS service is the resolver of the whole network. Queries leave encrypted, and through the tunnel when one is up. Devices that try to resolve on their own are answered by the router anyway.
+The DNS service is the resolver of the whole network. Queries leave encrypted, and through the tunnel when one is up. With interception enabled, the router handles standard DNS requests from devices that try to resolve on their own.
 
 * `sdx dns` shows whether the service runs, the upstream, the resolver, and whether interception is on.
 * `sdx dns config show`, `get <key>`, and `set <key>=<value> ...` manage the settings:
@@ -165,18 +165,18 @@ The DNS service is the resolver of the whole network. Queries leave encrypted, a
     * `plain` uses the resolver's classic DNS over the same path.
     * `provider` uses whatever the provider handed out, untouched.
   * `resolver`: `cloudflare`, `quad9`, or `google`. Ignored with `provider`.
-  * `intercept`: `1` redirects every DNS query from the network into the router and refuses DNS-over-TLS, so that a device with its own resolver still follows the rules. `0` leaves devices alone.
+  * `intercept`: `1` redirects DNS on port 53 from the network into the router and refuses DNS-over-TLS on port 853. It cannot transparently intercept arbitrary DNS-over-HTTPS traffic, so a device that uses its own DoH resolver can bypass DNS-based domain rules. `0` leaves devices alone.
 
 ## Link
 
-A link is the connection to a server that runs seedex-agent. You pair once. From then on, the router pulls its VPN and proxy configs from the server every 30 minutes and on demand. Configs that a link delivers are ordinary `vpn` and `proxy` entries marked as managed by that link: the link updates them, removes them when the server drops them, and leaves configs that you imported by hand alone.
+A link is the connection to a server that runs seedex-agent. You pair once. From then on, the router pulls the VPN and proxy configs selected for that link from the server every 30 minutes and on demand. Configs that a link delivers are ordinary `vpn` and `proxy` entries marked as managed by that link: the link updates them, removes them when the server drops them, and leaves configs that you imported by hand alone.
 
 * `sdx link` lists every link: whether the last sync succeeded, the URL, how many configs the link manages, and when it last synced.
 * `sdx link add <name> <url> <token> <fingerprint>` pairs with a server. `sdx link add <router>` on the server prints the exact command. The fingerprint pins the server's certificate, and the token identifies the router. When the server offers configs, the command continues with `sdx link select` so that you can pick the ones to import.
 * `sdx link show <name>` lists what the server offers. `[*]` marks the configs that the router has imported.
 * `sdx link select <name> [<config> ... | --all]` chooses which of the offered configs to import. Without arguments, the command opens a menu: move with the arrow keys, toggle a config with Space, select all with `a`, clear with `n`, confirm with Enter, or cancel with `q`. With names, the command selects those configs. `--all` imports everything that the server offers, including configs added later. The choice is kept. Deselected configs are removed and selected configs are added as pending changes, which `sdx apply` saves and applies. Nothing is imported until you select something.
 * `sdx link sync [<name>]` pulls the configs for one link or for all links. Changed configs are replaced, added configs are imported, dropped configs are removed, and the services that changed are restarted.
-* `sdx link <name> [<command> ...]` runs the server's own `sdx`. For example, `sdx link agent` shows the server's status, `sdx link agent vpn add phone` adds a client, and `sdx link agent proxy add vless 443` adds a protocol. When a command changes the configs, the router syncs right away. The server accepts only `vpn` and `proxy` actions and `start`, `stop`, and `restart`. Its own `link` and `firewall` commands stay out of reach.
+* `sdx link <name> [<command> ...]` runs an allowed server `sdx` command. For example, `sdx link agent` shows the server's status, `sdx link agent vpn add phone` adds a client, and `sdx link agent proxy add vless 443` adds a protocol. When a command changes the configs, the router syncs right away. The server accepts status, `help`, `version`, and global `start`, `stop`, or `restart`; for `vpn` and `proxy`, it also accepts `config`, `rotate`, `add`, and `remove`. Its own `link` and `firewall` commands stay out of reach.
 * `sdx link remove <name>` unpairs and drops every config that the link delivered.
 
 ## LuCI
