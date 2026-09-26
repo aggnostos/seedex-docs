@@ -171,6 +171,10 @@ The DNS service is the resolver of the whole network. Queries leave encrypted, a
 
 A link is the connection to a server that runs seedex-agent. You pair once. From then on, the router pulls the VPN and proxy configs selected for that link from the server every 30 minutes and on demand. Configs that a link delivers are ordinary `vpn` and `proxy` entries marked as managed by that link: the link updates them, removes them when the server drops them, and leaves configs that you imported by hand alone.
 
+{% hint style="warning" %}
+Treat a router token as full access to the server's VPN and proxy services. One server is one circle of trust: do not pair routers that you do not trust with each other to the same server. Link does not expose the server's `firewall` or `link` commands, but this does not make the token suitable for separating mutually untrusted routers.
+{% endhint %}
+
 * `sdx link` lists every link: whether the last sync succeeded, the URL, how many configs the link manages, and when it last synced.
 * `sdx link add <name> <url> <token> <fingerprint>` pairs with a server. `sdx link add <router>` on the server prints the exact command. The fingerprint pins the server's certificate, and the token identifies the router. When the server offers configs, the command continues with `sdx link select` so that you can pick the ones to import.
 * `sdx link show <name>` lists what the server offers. `[*]` marks the configs that the router has imported.
