@@ -167,6 +167,10 @@ The DNS service is the resolver of the whole network. Queries leave encrypted, a
   * `resolver`: `cloudflare`, `quad9`, or `google`. Ignored with `provider`.
   * `intercept`: `1` redirects DNS on port 53 from the network into the router and refuses DNS-over-TLS on port 853. It cannot transparently intercept arbitrary DNS-over-HTTPS traffic, so a device that uses its own DoH resolver can bypass DNS-based domain rules. `0` leaves devices alone.
 
+{% hint style="info" %}
+To make clients that use known DoH endpoints fall back to the router's DNS, add a `block` router rule for those endpoint domains. Use `domain=` entries or a `list_url`/`list_path` list, for example `dns.google`, `cloudflare-dns.com`, and the concrete hosts you use under `doh.*`. Exclude the resolver used by the router itself: blocking `cloudflare-dns.com` while `resolver=cloudflare`, for example, breaks its encrypted upstream. This only covers known domain-based endpoints; a client can still use an unknown endpoint or a hard-coded IP address.
+{% endhint %}
+
 ## Link
 
 A link is the connection to a server that runs seedex-agent. You pair once. From then on, the router pulls the VPN and proxy configs selected for that link from the server every 30 minutes and on demand. Configs that a link delivers are ordinary `vpn` and `proxy` entries marked as managed by that link: the link updates them, removes them when the server drops them, and leaves configs that you imported by hand alone.
