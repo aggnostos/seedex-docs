@@ -195,17 +195,29 @@ Manages the VPN configs: add, edit, enable, disable, remove, plus reserve and un
 
 ![The VPN tab: the config list](../../assets/vpn.png)
 
+To add a VPN config, select **Add config**, enter its file name and paste the contents of the WG or AWG `.conf` file, then select **Import**. The `.conf` extension is added when it is missing.
+
+![Add a VPN config: file name and config contents](../../assets/vpn_add.png)
+
 ### Proxy
 
 Manages the proxy configs the same way, and the sing-box settings.
 
 ![The Proxy tab: the config list and the settings](../../assets/proxy.png)
 
+To add a proxy config, select **Add config** and either paste a supported share link or enter a file name and paste a sing-box JSON config. A share link provides its own name; a missing `.json` extension is added to a file name.
+
+![Add a proxy config: share link or sing-box JSON](../../assets/proxy_add.png)
+
 ### Router
 
 Manages the rules and the router settings.
 
 ![The Router tab: the rules table and the settings](../../assets/router.png)
+
+To add a rule, select **Add rule**, choose its type, and fill in destination or device matchers. A rule may match destinations or devices, but not both. Leave **Tunnel** empty to use the fastest live overlay tunnel, or name a VPN or proxy config to pin the rule to it.
+
+![Add a router rule: type, tunnel, and matchers](../../assets/router_add.png)
 
 ### DNS
 
