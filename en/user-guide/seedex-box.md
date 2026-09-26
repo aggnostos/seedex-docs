@@ -94,7 +94,7 @@ A rule has a `type` that says what happens to the traffic that it matches:
 
 A rule matches either destinations or devices, never both. Device rules win over destination rules: a device pinned to `direct` stays direct even for domains that other rules send through the tunnel.
 
-`iface=<config>` pins an `overlay` rule to one tunnel, named after its VPN or proxy config, instead of the fastest one. Pinned rules are matched before the rest. When the watchdog finds that tunnel unreachable, the rule's traffic follows the overlay's default route until it answers again, and the kill switch still applies. A pinned tunnel stays in the overlay pool unless `reserve` takes it out:
+`iface=<config>` pins an `overlay` rule to one tunnel, named after its VPN or proxy config, instead of the fastest one. Pinned rules are matched before the rest; only a device rule of type `direct` comes first. When the watchdog finds that tunnel unreachable, the rule's traffic follows the overlay's default route until it answers again, and the kill switch still applies. A pinned tunnel stays in the overlay pool unless `reserve` takes it out:
 
 ```sh
 sdx router add work type=overlay iface=ger1-awg-router domain=intranet.example.com
