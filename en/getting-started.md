@@ -115,7 +115,7 @@ Uplink:
 [*] Router:
   Routing:      overlay
   Kill switch:  on
-  Watchdog:     every 30s
+  Watchdog:     fastest
   Rules:
     [*] ads                block    list
     [*] tv                 direct   1 client
