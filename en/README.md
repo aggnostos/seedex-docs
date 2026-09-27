@@ -28,3 +28,8 @@ Seedex consists of two parts:
 * [Getting started](getting-started.md) walks you through installing the server and the router.
 * [User guide](user-guide/README.md) describes every `sdx` command on the router and on the server, and the LuCI app.
 * [Developer guide](developer-guide/README.md) covers the project structure, building, and linting.
+
+## Community
+
+Join the [Telegram chat (Russian-speaking)](https://t.me/seedex_net) for questions, setup help, and discussion.
+For bug reports and feature requests in English, please use GitHub Issues for [Seedex OpenWrt](https://github.com/aggnostos/seedex-openwrt/issues) or [Seedex Agent](https://github.com/aggnostos/seedex-agent/issues).
