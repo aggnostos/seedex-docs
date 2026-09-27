@@ -39,6 +39,7 @@ Entries—VPN and proxy configs, and router rules—are addressed by name or by 
 ### Router-wide actions
 
 * `sdx priority [<config> [<number>]]` sets the priority of a VPN or proxy config for the `priority` and `failover` modes of the watchdog: the higher the number, the more the tunnel is preferred; 0 is the default, and negative numbers are allowed. Without a number it shows the priority, and without a config it lists them all. The watchdog uses a new priority at its next check, without `sdx apply`.
+* `sdx reserve <config> ...` keeps a tunnel out of the overlay, so only rules pinned to it with `iface=` use it — a work VPN stays for work traffic even when it is the fastest tunnel. `sdx unreserve` returns it to the pool. Both act at once, without `sdx apply`.
 * `sdx import [--force] <path|link|url>` imports a config file, every config in a directory, a proxy share link, or a subscription address. A WireGuard (WG) or AmneziaWG (AWG) `.conf` file goes to `vpn`, a sing-box `.json` file goes to `proxy`, and a rules `.json` file goes to `router`. The file name becomes the entry name. A name that is already in use is refused, unless you pass `--force`.
   * `--force` replaces the entry of that name with the incoming one, which is how you refresh a subscription or a config you exported again. Like every other change, the replacement waits for `sdx apply`: the incoming file is kept beside the old one as `<name>.new`, the running service keeps the old one, and `sdx revert` drops the new one. The entry keeps the state you gave it, so a config you disabled stays disabled. A config that a link manages is never replaced this way: the next sync would undo your file, so change it on the server instead.
   * A rules file is refused the same way when it carries a rule name that exists. The check runs over the whole file first, so an import never leaves half of its rules behind.
@@ -61,7 +62,6 @@ The VPN service runs WG and AWG tunnels. Each config is a tunnel of its own: a `
 * `sdx vpn` shows whether the service runs and lists every config. `[*]` marks the config that carries traffic. Reachable configs show their RTT, and a config taken out of the overlay is marked `reserved`.
 * `sdx vpn show [#|name ...]` lists the configs with their tunnel interface and file, or shows the named configs with their contents.
 * `sdx vpn enable <#|name ...>` and `disable` switch configs on or off without removing them.
-* `sdx vpn reserve <#|name ...>` keeps a tunnel out of the overlay, so only rules pinned to it with `iface=` use it — a work VPN stays for work traffic even when it is the fastest tunnel. `unreserve` returns it to the pool.
 * `sdx vpn remove <#|name ...>` removes configs. Their files are deleted at the next start.
 * `sdx vpn export` prints every config in a form that `sdx import` accepts.
 * `sdx vpn reset` stops the service and drops every config with its files.
@@ -73,7 +73,6 @@ The proxy service runs one sing-box instance that gives every config its own tun
 * `sdx proxy` shows whether the service runs and lists every config with its RTT. `[*]` marks the config that carries traffic, `reserved` a config taken out of the overlay.
 * `sdx proxy show [#|name ...]` lists the configs with their files, or shows the named configs with their outbounds.
 * `sdx proxy enable <#|name ...>` and `disable` switch configs on or off. sing-box is rebuilt from the enabled configs at the next restart.
-* `sdx proxy reserve <#|name ...>` keeps a tunnel out of the overlay, so only rules pinned to it with `iface=` use it. `unreserve` returns it to the pool.
 * `sdx proxy remove <#|name ...>` removes configs. Their files are deleted at the next start.
 * `sdx proxy export` prints every config in a form that `sdx import` accepts.
 * `sdx proxy reset` stops the service and drops every config with its files.
