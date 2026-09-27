@@ -246,3 +246,41 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
 Импортирует файл конфига, сбрасывает сервис и показывает логи.
 
 ![Вкладка System: импорт, сброс и логи](../../assets/system.png)
+
+## Обновление
+
+Seedex ставится из собственного фида, поэтому обновляется менеджером пакетов, как любой другой пакет OpenWrt. Обновляйте пакеты Seedex по имени: `opkg upgrade` без аргументов трогает и системные пакеты, а это OpenWrt не рекомендует.
+
+На OpenWrt 24.10 (opkg):
+
+```sh
+opkg update
+opkg upgrade seedex-box luci-app-seedex
+```
+
+На OpenWrt 25.x и новее (apk):
+
+```sh
+apk update
+apk upgrade seedex-box luci-app-seedex
+```
+
+То же самое делает LuCI: в разделе **System → Software** нажмите **Update lists**, затем обновите пакеты на вкладке **Updates**.
+
+Пакет обновляется на диске, но запущенные сервисы продолжают работать на старой версии. Перезапустите их:
+
+```sh
+sdx restart
+```
+
+Настройки, правила, конфиги VPN и Proxy при обновлении сохраняются.
+
+{% hint style="warning" %}
+Обновление прошивки (`sysupgrade`) удаляет все пакеты, установленные поверх неё, включая Seedex и AmneziaWG. Настройки остаются: `/etc/config` и `/etc/seedex` переносятся в новую прошивку. После обновления прошивки заново запустите установщик.
+{% endhint %}
+
+Установщик вернёт фиды, ключи и пакеты, а Seedex подхватит сохранённые настройки:
+
+```sh
+wget -O - https://feed.seedex.net/install.sh | sh
+```

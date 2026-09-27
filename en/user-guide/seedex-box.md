@@ -246,3 +246,41 @@ Manages the servers: add, remove, sync, and pick the configs to import.
 Imports a config file, resets a service, and shows the logs.
 
 ![The System tab: import, reset, and logs](../../assets/system.png)
+
+## Updating
+
+Seedex installs from its own feed, so the package manager updates it like any other OpenWrt package. Update the Seedex packages by name: a bare `opkg upgrade` touches the system packages too, which OpenWrt advises against.
+
+On OpenWrt 24.10 (opkg):
+
+```sh
+opkg update
+opkg upgrade seedex-box luci-app-seedex
+```
+
+On OpenWrt 25.x and later (apk):
+
+```sh
+apk update
+apk upgrade seedex-box luci-app-seedex
+```
+
+LuCI does the same: under **System → Software**, click **Update lists**, then update the packages on the **Updates** tab.
+
+The update replaces the package on disk, but the running services keep the previous version. Restart them:
+
+```sh
+sdx restart
+```
+
+Settings, rules, and VPN and proxy configs survive the update.
+
+{% hint style="warning" %}
+A firmware upgrade (`sysupgrade`) removes every package installed on top of the firmware, Seedex and AmneziaWG included. The settings stay: `/etc/config` and `/etc/seedex` carry over to the new firmware. After a firmware upgrade, run the installer again.
+{% endhint %}
+
+The installer restores the feeds, the keys, and the packages, and Seedex picks up the saved settings:
+
+```sh
+wget -O - https://feed.seedex.net/install.sh | sh
+```
