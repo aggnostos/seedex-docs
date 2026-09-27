@@ -2,6 +2,8 @@
 
 Seedex is a simple but flexible tool that turns an OpenWrt router into a privacy layer for the home network. It can send traffic selected by its routing policy through WireGuard, AmneziaWG, or sing-box tunnels.
 
+Seedex aims to lower the barrier to entry and make setup and everyday management easier by bringing VPN, proxy, routing, and DNS configuration together in a single interface.
+
 ## Parts
 
 Seedex consists of two parts:
