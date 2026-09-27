@@ -84,6 +84,8 @@ The proxy service runs one sing-box instance that gives every config its own tun
 
 The router service decides where traffic goes: VPN and proxy only provide the tunnels, and the router service steers traffic into them. A default route sends all traffic either through the overlay or straight to the provider, and rules override it for specific domains, IP addresses, subnets, lists, or devices. A watchdog probes every tunnel and keeps the overlay traffic on the fastest live one. A kill switch makes sure that traffic meant for the overlay never leaves through the provider in the clear: when no overlay tunnel is up, those connections are blocked until one comes back. Explicitly direct rules still use the WAN.
 
+When the provider offers no IPv6 but the active tunnel carries it, the router service announces an IPv6 default route to the LAN (`ra_default` in `dhcp.lan`). This way IPv6-only sites open through the overlay too. When the tunnel stops carrying IPv6 or the router service stops, the announcement is withdrawn. A `ra_default` that you set by hand stays untouched.
+
 ### Rules
 
 A rule has a `type` that says what happens to the traffic that it matches:
