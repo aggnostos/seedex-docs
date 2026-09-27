@@ -38,6 +38,7 @@ Entries—VPN and proxy configs, and router rules—are addressed by name or by 
 
 ### Router-wide actions
 
+* `sdx priority [<config> [<number>]]` sets the priority of a VPN or proxy config for the `priority` and `failover` modes of the watchdog: the higher the number, the more the tunnel is preferred; 0 is the default, and negative numbers are allowed. Without a number it shows the priority, and without a config it lists them all. The watchdog uses a new priority at its next check, without `sdx apply`.
 * `sdx import [--force] <path|link|url>` imports a config file, every config in a directory, a proxy share link, or a subscription address. A WireGuard (WG) or AmneziaWG (AWG) `.conf` file goes to `vpn`, a sing-box `.json` file goes to `proxy`, and a rules `.json` file goes to `router`. The file name becomes the entry name. A name that is already in use is refused, unless you pass `--force`.
   * `--force` replaces the entry of that name with the incoming one, which is how you refresh a subscription or a config you exported again. Like every other change, the replacement waits for `sdx apply`: the incoming file is kept beside the old one as `<name>.new`, the running service keeps the old one, and `sdx revert` drops the new one. The entry keeps the state you gave it, so a config you disabled stays disabled. A config that a link manages is never replaced this way: the next sync would undo your file, so change it on the server instead.
   * A rules file is refused the same way when it carries a rule name that exists. The check runs over the whole file first, so an import never leaves half of its rules behind.
@@ -82,7 +83,7 @@ The proxy service runs one sing-box instance that gives every config its own tun
 
 ## Router
 
-The router service decides where traffic goes: VPN and proxy only provide the tunnels, and the router service steers traffic into them. A default route sends all traffic either through the overlay or straight to the provider, and rules override it for specific domains, IP addresses, subnets, lists, or devices. A watchdog probes every tunnel and keeps the overlay traffic on the fastest live one. A kill switch makes sure that traffic meant for the overlay never leaves through the provider in the clear: when no overlay tunnel is up, those connections are blocked until one comes back. Explicitly direct rules still use the WAN.
+The router service decides where traffic goes: VPN and proxy only provide the tunnels, and the router service steers traffic into them. A default route sends all traffic either through the overlay or straight to the provider, and rules override it for specific domains, IP addresses, subnets, lists, or devices. A watchdog probes every tunnel and keeps the overlay traffic on a live one: the fastest, the one of the highest priority, or the current one until it fails. A kill switch makes sure that traffic meant for the overlay never leaves through the provider in the clear: when no overlay tunnel is up, those connections are blocked until one comes back. Explicitly direct rules still use the WAN.
 
 When the provider offers no IPv6 but the active tunnel carries it, the router service announces an IPv6 default route to the LAN (`ra_default` in `dhcp.lan`). This way IPv6-only sites open through the overlay too. When the tunnel stops carrying IPv6 or the router service stops, the announcement is withdrawn. A `ra_default` that you set by hand stays untouched.
 
@@ -137,7 +138,7 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
 
 ### Commands
 
-* `sdx router` shows whether the service runs, the routing mode, the kill switch, the watchdog interval, and the rules.
+* `sdx router` shows whether the service runs, the routing mode, the kill switch, the watchdog mode, and the rules.
 * `sdx router show [#|name ...]` lists the rules, or shows every field of the named rules.
 * `sdx router add <name> type=... [matchers]` adds a rule.
 * `sdx router update <#|name> ...` changes a rule. It accepts `type=`, `name=`, and the list options, and edits the matcher lists `domain`, `ip`, `client_mac`, and `client_ip`:
@@ -155,6 +156,14 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
   * `watchdog_interval`: The number of seconds between probes of the tunnels.
   * `watchdog_url`: The URL that the probes fetch.
   * `watchdog_timeout`: The number of seconds before a probe counts as failed.
+  * `watchdog_mode`: How the watchdog picks the tunnel. It compares the median RTT of the last three probes, and it leaves a tunnel at once when that tunnel stops answering.
+    * `fastest` (default) moves to a tunnel that is faster by more than `watchdog_tolerance` in `watchdog_checks` probes in a row. Priorities play no part.
+    * `priority` moves to a tunnel of higher priority (see `sdx priority`) once it has answered `watchdog_checks` probes in a row, and never for speed.
+    * `failover` never moves while the current tunnel answers, so open connections are never cut.
+
+    When the current tunnel fails, `fastest` takes the fastest answering tunnel, while `priority` and `failover` take the one of the highest priority and, among equals, the fastest.
+  * `watchdog_tolerance`: How many milliseconds faster another tunnel must be in `fastest` mode, 100 by default.
+  * `watchdog_checks`: How many probes in a row the better tunnel must win before the switch, 3 by default. At the default 30-second interval that is a minute and a half.
 
 ## DNS
 
@@ -201,7 +210,7 @@ Shows the services with **Stop** and **Restart** buttons, and the output of `sdx
 
 ### VPN
 
-Manages the VPN configs: add, edit, enable, disable, remove, plus reserve and unreserve for keeping a tunnel out of the overlay.
+Manages the VPN configs: add, edit, enable, disable, remove, plus reserve and unreserve for keeping a tunnel out of the overlay. The edit dialog sets the tunnel's priority.
 
 ![The VPN tab: the config list](../../assets/vpn.png)
 
