@@ -9,7 +9,7 @@ You need the following:
 * A router running OpenWrt 24.10.2 or later with outbound internet access.
 * A server: any WG, AWG, or sing-box server with its client configs, or a server running Ubuntu 24.04 or later with a public IP address and root access for seedex-agent.
 
-Recommended router requirements: **512 MB RAM** and **100 MiB of free storage** for package installation.
+Minimum router requirements (provisional): **256 MB RAM** and **100 MB of free storage** for package installation.
 
 ## Install seedex-box
 
