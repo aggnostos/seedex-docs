@@ -1,0 +1,24 @@
+{{ define "main" }}
+<main class="sx-notfound" id="content" data-index="{{ (resources.Get "json/seedex-search.json" | resources.ExecuteAsTemplate (printf "%s.search-data.json" site.Language.Lang) .).RelPermalink }}">
+  <div class="sx-notfound-title">
+    <h1>{{ T "notFound" }}</h1>
+    <p>{{ T "notFoundText" }}</p>
+  </div>
+  <div class="sx-notfound-box">
+    <form class="sx-notfound-search" role="search">
+      {{- partial "seedex/icon.html" (dict "name" "search") -}}
+      <input type="text" placeholder="{{ T "searchPlaceholder" }}" aria-label="{{ T "search" }}" autocomplete="off" />
+      <button type="submit" aria-label="{{ T "search" }}">{{ partial "seedex/icon.html" (dict "name" "arrow-right") }}</button>
+    </form>
+    <div class="sx-notfound-list">
+      <h2>{{ T "lookingFor" }}</h2>
+      <ul>
+        {{- range first 5 (where (where site.Pages "Kind" "in" (slice "page" "section")) "IsHome" false).ByWeight }}
+        <li><a href="{{ .RelPermalink }}">{{ partial "seedex/icon.html" (dict "name" "file") }}<span>{{ .LinkTitle }}</span></a></li>
+        {{- end }}
+      </ul>
+    </div>
+  </div>
+  <a class="sx-button sx-notfound-home" href="{{ site.Home.RelPermalink }}">{{ partial "seedex/icon.html" (dict "name" "house") }}<span>{{ T "goHome" }}</span></a>
+</main>
+{{ end }}

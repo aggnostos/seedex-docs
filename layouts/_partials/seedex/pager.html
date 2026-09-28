@@ -1,0 +1,20 @@
+{{- $prev := false -}}
+{{- $next := false -}}
+{{- with .Params.prev }}{{ $prev = site.GetPage . }}{{ end -}}
+{{- with .Params.next }}{{ $next = site.GetPage . }}{{ end -}}
+{{- if or $prev $next }}
+<nav class="sx-pager">
+  {{- with $prev }}
+  <a class="sx-pager-prev" href="{{ .RelPermalink }}">
+    {{- partial "seedex/icon.html" (dict "name" "chevron-left") -}}
+    <div><span>{{ T "previous" }}</span><span>{{ .LinkTitle }}</span></div>
+  </a>
+  {{- end }}
+  {{- with $next }}
+  <a class="sx-pager-next" href="{{ .RelPermalink }}">
+    {{- partial "seedex/icon.html" (dict "name" "chevron-right") -}}
+    <div><span>{{ T "next" }}</span><span>{{ .LinkTitle }}</span></div>
+  </a>
+  {{- end }}
+</nav>
+{{- end }}

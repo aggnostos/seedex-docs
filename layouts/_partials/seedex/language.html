@@ -1,0 +1,16 @@
+{{- $page := .page -}}
+<div class="sx-dropdown sx-language {{ .class }}">
+  <button type="button" class="sx-button" aria-haspopup="menu" aria-expanded="false">
+    {{- partial "seedex/icon.html" (dict "name" "globe") -}}
+    <span class="sx-language-label">{{ site.Language.Label }}</span>
+    {{- partial "seedex/icon.html" (dict "name" "chevron-down" "class" "sx-chevron") -}}
+  </button>
+  <div class="sx-menu" role="menu">
+    {{- range hugo.Sites }}
+      {{- $lang := .Language.Lang -}}
+      {{- $link := .Home.RelPermalink -}}
+      {{- range $page.AllTranslations }}{{ if eq .Language.Lang $lang }}{{ $link = .RelPermalink }}{{ end }}{{ end }}
+      <a role="menuitem" href="{{ $link }}" hreflang="{{ $lang }}"{{ if eq $lang site.Language.Lang }} aria-current="true"{{ end }}>{{ .Language.Label }}</a>
+    {{- end }}
+  </div>
+</div>

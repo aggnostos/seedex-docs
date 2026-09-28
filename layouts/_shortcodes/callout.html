@@ -1,0 +1,6 @@
+{{- $type := .Get "type" | default "info" -}}
+{{- $icon := cond (eq $type "warning") "circle-exclamation" "circle-info" -}}
+<div class="sx-hint sx-hint-{{ $type }}" role="note" aria-label="{{ T $type }}">
+  <div class="sx-hint-icon">{{ partial "seedex/icon.html" (dict "name" $icon) }}</div>
+  <div class="sx-hint-body">{{ .InnerDeindent | .Page.RenderString (dict "display" "block") }}</div>
+</div>

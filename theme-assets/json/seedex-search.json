@@ -1,0 +1,16 @@
+{{- /* Pages split into sections at h2 and h3 headings, for the search in the header. */ -}}
+{{- $output := slice -}}
+{{- range where site.Pages "Kind" "in" (slice "home" "page" "section") -}}
+  {{- $crumb := "" -}}
+  {{- with .Parent }}{{ if not .IsHome }}{{ $crumb = .LinkTitle }}{{ end }}{{ end -}}
+  {{- $html := .Content | replaceRE `<button[^>]*>[^<]*</button>` "" | replaceRE `</(p|li|pre|figcaption|div)>` "$0\n" -}}
+  {{- $marked := replaceRE `<h[23] id="([^"]+)"><span>(.*?)</span>` "\x1e$1\x1f$2\x1f" $html -}}
+  {{- $chunks := split $marked "\x1e" -}}
+  {{- $sections := slice (dict "id" "" "heading" "" "text" (index $chunks 0 | plainify | htmlUnescape | strings.TrimSpace)) -}}
+  {{- range after 1 $chunks -}}
+    {{- $fields := split . "\x1f" -}}
+    {{- $sections = $sections | append (dict "id" (index $fields 0) "heading" (index $fields 1 | plainify | htmlUnescape) "text" (index $fields 2 | plainify | htmlUnescape | strings.TrimSpace)) -}}
+  {{- end -}}
+  {{- $output = $output | append (dict "url" .RelPermalink "title" .LinkTitle "crumb" $crumb "sections" $sections) -}}
+{{- end -}}
+{{- $output | jsonify -}}

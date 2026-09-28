@@ -1,0 +1,29 @@
+search: Поиск
+searchPlaceholder: Поиск…
+clear: Очистить
+noResults: Нет результатов
+resultsOne: "{n} результат"
+resultsFew: "{n} результата"
+resultsMany: "{n} результатов"
+navigate: Навигация
+close: Закрыть
+openTOC: Открыть оглавление
+onThisPage: На этой странице
+more: Ещё
+previous: Предыдущая
+next: Следующая
+lastUpdated: Последнее обновление
+copy: Копировать
+copied: Скопировано
+anchor: Прямая ссылка на заголовок
+warning: Предупреждение
+info: Информация
+lightTheme: Переключиться на светлую тему
+systemTheme: Переключиться на системную тему
+darkTheme: Переключиться на тёмную тему
+breadcrumb: Breadcrumb
+notFound: Страница не найдена
+notFoundText: Страница, которую вы ищете, не существует.
+lookingFor: Возможно, вы ищете
+goHome: Перейти на главную
+filter: Фильтр

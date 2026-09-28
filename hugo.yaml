@@ -1,0 +1,45 @@
+baseURL: https://docs.seedex.net/
+title: Seedex Documentation
+defaultContentLanguage: en
+enableRobotsTXT: true
+disableKinds: [taxonomy, term, RSS]
+languages:
+  en:
+    label: English
+    locale: en
+    contentDir: .hugo/content/en
+    weight: 1
+  ru:
+    label: Русский
+    locale: ru
+    contentDir: .hugo/content/ru
+    weight: 2
+module:
+  mounts:
+    - source: theme-assets
+      target: assets
+    - source: static
+      target: static
+    - source: assets
+      target: static/assets
+    - source: .hugo/data
+      target: data
+markup:
+  highlight:
+    noClasses: false
+  goldmark:
+    extensions:
+      typographer:
+        disable: true
+    parser:
+      wrapStandAloneImageWithinParagraph: false
+    renderer:
+      unsafe: true
+params:
+  description: Seedex — VPN, proxy, routing and DNS for OpenWrt.
+  github: https://github.com/aggnostos/seedex-openwrt
+  theme:
+    default: system
+  search:
+    enable: true
+    type: flexsearch

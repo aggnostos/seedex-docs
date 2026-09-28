@@ -1,0 +1,38 @@
+<aside class="sx-toc" data-sheet="toc">
+  <div class="sx-toc-inner">
+    {{- with .Fragments.Headings }}
+    <div class="sx-toc-head">
+      <button type="button" class="sx-toc-title" data-sheet-close>
+        {{- partial "seedex/icon.html" (dict "name" "list") -}}
+        <span>{{ T "onThisPage" }}</span>
+      </button>
+      <button type="button" class="sx-button sx-sheet-close" aria-label="{{ T "close" }}" data-sheet-close>
+        {{- partial "seedex/icon.html" (dict "name" "xmark") -}}
+      </button>
+    </div>
+    <div class="sx-toc-scroll">
+      <ul class="sx-toc-list">
+        {{- range . }}{{ range .Headings }}
+        <li>
+          <a href="#{{ .ID }}" data-level="2"><span>{{ .Title | plainify | htmlUnescape }}</span></a>
+          {{- with .Headings }}
+          <ul>
+            {{- range . }}
+            <li><a href="#{{ .ID }}" data-level="3"><span>{{ .Title | plainify | htmlUnescape }}</span></a></li>
+            {{- end }}
+          </ul>
+          {{- end }}
+        </li>
+        {{- end }}{{ end }}
+      </ul>
+    </div>
+    {{- end }}
+    <div class="sx-theme" role="radiogroup">
+      {{- range slice (slice "light" "sun" "lightTheme") (slice "system" "desktop" "systemTheme") (slice "dark" "moon" "darkTheme") }}
+      <button type="button" role="radio" data-theme-value="{{ index . 0 }}" aria-label="{{ T (index . 2) }}" title="{{ T (index . 2) }}">
+        {{- partial "seedex/icon.html" (dict "name" (index . 1)) -}}
+      </button>
+      {{- end }}
+    </div>
+  </div>
+</aside>

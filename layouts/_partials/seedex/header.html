@@ -1,0 +1,28 @@
+{{- $page := . -}}
+<header class="sx-header">
+  <div class="sx-header-inner">
+    <div class="sx-header-start">
+      <button type="button" class="sx-button sx-menu-button" aria-label="{{ T "openTOC" }}" aria-expanded="false" data-sheet-open="sidebar">
+        {{- partial "seedex/icon.html" (dict "name" "bars") -}}
+      </button>
+      {{- partial "seedex/logo.html" . -}}
+    </div>
+    <div class="sx-header-links">
+      <a class="sx-button sx-github" href="{{ site.Params.github }}" aria-label="GitHub" title="GitHub" target="_blank" rel="noopener">
+        {{- partial "seedex/icon.html" (dict "name" "github") -}}
+      </a>
+      <div class="sx-dropdown sx-more">
+        <button type="button" class="sx-button" aria-label="{{ T "more" }}" aria-haspopup="menu" aria-expanded="false">
+          {{- partial "seedex/icon.html" (dict "name" "ellipsis") -}}
+          {{- partial "seedex/icon.html" (dict "name" "chevron-down" "class" "sx-chevron") -}}
+        </button>
+        <div class="sx-menu" role="menu">
+          <a role="menuitem" href="{{ site.Params.github }}" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      {{- partial "seedex/language.html" (dict "page" $page "class" "sx-header-language") -}}
+    </div>
+    {{- partial "seedex/search.html" . -}}
+  </div>
+  <div class="sx-backdrop sx-search-backdrop" hidden></div>
+</header>

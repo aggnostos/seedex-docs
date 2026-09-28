@@ -1,0 +1,44 @@
+{{- $page := . -}}
+<aside class="sx-sidebar" data-sheet="sidebar">
+  <div class="sx-sheet-head">
+    {{- partial "seedex/logo.html" . -}}
+    {{- partial "seedex/language.html" (dict "page" $page "class" "sx-sheet-language") -}}
+  </div>
+  <button type="button" class="sx-button sx-sheet-close" aria-label="{{ T "close" }}" data-sheet-close>
+    {{- partial "seedex/icon.html" (dict "name" "xmark") -}}
+  </button>
+  <nav class="sx-sidebar-scroll">
+    <ul class="sx-nav">
+      <li>{{ template "sx-nav-link" (dict "item" site.Home "page" $page) }}</li>
+      {{- range site.Home.Pages.ByWeight }}
+        {{ template "sx-nav-item" (dict "item" . "page" $page) }}
+      {{- end }}
+    </ul>
+  </nav>
+</aside>
+
+{{- define "sx-nav-item" -}}
+  {{- $item := .item -}}
+  {{- $children := $item.Pages.ByWeight -}}
+  {{- $open := or (eq $item .page) ($item.IsAncestor .page) -}}
+  <li class="{{ if $children }}sx-nav-group{{ end }}{{ if $open }} sx-open{{ end }}">
+    {{- template "sx-nav-link" (dict "item" $item "page" .page "children" (gt (len $children) 0)) -}}
+    {{- with $children }}
+    <ul class="sx-nav-children">
+      {{- range . }}
+        {{ template "sx-nav-item" (dict "item" . "page" $.page) }}
+      {{- end }}
+    </ul>
+    {{- end }}
+  </li>
+{{- end -}}
+
+{{- define "sx-nav-link" -}}
+  {{- $active := eq .item .page -}}
+  <a class="sx-nav-link" href="{{ .item.RelPermalink }}"{{ if $active }} aria-current="page"{{ end }}>
+    <span>{{ .item.LinkTitle }}</span>
+    {{- if .children }}
+    <button type="button" class="sx-nav-toggle" tabindex="-1" aria-label="{{ .item.LinkTitle }}">{{ partial "seedex/icon.html" (dict "name" "chevron-right") }}</button>
+    {{- end }}
+  </a>
+{{- end -}}

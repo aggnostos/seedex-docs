@@ -1,0 +1,51 @@
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  {{- if hugo.IsProduction }}
+  <meta name="robots" content="index, follow" />
+  {{- else }}
+  <meta name="robots" content="noindex, nofollow" />
+  {{- end }}
+  {{- $title := printf "%s%s" (cond (ne .Title "") (printf "%s | " .Title) "") site.Title }}
+  {{- $description := .Description | default (cond .IsHome site.Params.description .Summary) | plainify | htmlUnescape | replaceRE `\s+` " " | strings.TrimSpace }}
+  {{- $image := "images/social-preview.png" | absURL }}
+  <title>{{ $title }}</title>
+  <meta name="description" content="{{ $description }}" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="{{ site.Title }}" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta property="og:title" content="{{ $title }}" />
+  <meta property="og:description" content="{{ $description }}" />
+  <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <meta property="og:site_name" content="{{ site.Title }}" />
+  <meta property="og:locale" content="{{ site.Language.Locale }}" />
+  <meta property="og:image" content="{{ $image }}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ $title }}" />
+  <meta name="twitter:image" content="{{ $image }}" />
+  <link rel="canonical" href="{{ .Permalink }}" />
+  {{- range .AllTranslations }}
+  <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />
+  {{- end }}
+  <link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="48x48" />
+  <link rel="icon" href="{{ "favicon-32x32.png" | relURL }}" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}" sizes="180x180" />
+  <link rel="manifest" href="{{ "site.webmanifest" | relURL }}" fetchpriority="low" />
+  {{- range slice "manrope-regular" "manrope-semibold" "manrope-bold" }}
+  <link rel="preload" href="{{ printf "fonts/%s.woff2" . | relURL }}" as="font" type="font/woff2" crossorigin />
+  {{- end }}
+  {{- $style := resources.Get "css/seedex.css" }}
+  {{- if hugo.IsProduction }}{{ $style = $style | minify | fingerprint }}{{ end }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
+  <script>
+    (function () {
+      var theme = localStorage.getItem('color-theme');
+      var dark = theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList.add(dark ? 'dark' : 'light');
+      document.documentElement.dataset.theme = theme === 'light' || theme === 'dark' ? theme : 'system';
+      if (/Mac|iPhone|iPad/.test(navigator.platform)) document.documentElement.classList.add('os-mac');
+    })();
+  </script>
+</head>

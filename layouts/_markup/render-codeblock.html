@@ -1,0 +1,12 @@
+{{- $lines := split .Inner "\n" -}}
+{{- $highlighted := false -}}
+{{- with .Attributes.key }}{{ $highlighted = index hugo.Data.highlight . }}{{ end -}}
+{{- if and .Attributes.key (not $highlighted) }}{{ errorf "missing highlighting for %s; run make prepare" .Attributes.key }}{{ end -}}
+<div class="sx-code{{ if $highlighted }} sx-code-shell{{ end }}">
+  <button type="button" class="sx-code-copy">{{ T "copy" }}</button>
+  <pre><code>
+  {{- range $index, $line := $lines -}}
+    <span class="sx-line"><span class="sx-line-content">{{ if $highlighted }}{{ index $highlighted $index | safeHTML }}{{ else }}{{ $line }}{{ end }}{{ if lt (add $index 1) (len $lines) }}{{ "\n" }}{{ end }}</span></span>
+  {{- end -}}
+  </code></pre>
+</div>

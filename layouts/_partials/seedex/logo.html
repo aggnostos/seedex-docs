@@ -1,0 +1,7 @@
+<a class="sx-logo" href="{{ site.Home.RelPermalink }}">
+  {{- range $theme := slice "light" "dark" }}
+  <img class="sx-logo-{{ $theme }}" alt="Logo" width="2092" height="543" sizes="(max-width: 1024px) 160px, 260px"
+    src="{{ printf "images/logo-%s-780.png" $theme | relURL }}"
+    srcset="{{ range $i, $w := slice 160 320 480 260 520 780 }}{{ if $i }}, {{ end }}{{ printf "images/logo-%s-%d.png" $theme $w | relURL }} {{ $w }}w{{ end }}" />
+  {{- end }}
+</a>

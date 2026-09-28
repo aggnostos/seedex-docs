@@ -1,0 +1,29 @@
+search: Search
+searchPlaceholder: Search…
+clear: Clear
+noResults: No results
+resultsOne: "{n} result"
+resultsFew: "{n} results"
+resultsMany: "{n} results"
+navigate: Navigate
+close: Close
+openTOC: Open table of contents
+onThisPage: On this page
+more: More
+previous: Previous
+next: Next
+lastUpdated: Last updated
+copy: Copy
+copied: Copied
+anchor: Direct link to heading
+warning: Warning
+info: Information
+lightTheme: Switch to light theme
+systemTheme: Switch to system theme
+darkTheme: Switch to dark theme
+breadcrumb: Breadcrumb
+notFound: Page not found
+notFoundText: The page you're looking for doesn't exist.
+lookingFor: You might be looking for
+goHome: Go to homepage
+filter: Filter

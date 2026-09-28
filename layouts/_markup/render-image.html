@@ -1,0 +1,8 @@
+{{- $size := dict -}}
+{{- $file := strings.TrimPrefix "/" .Destination -}}
+{{- if fileExists $file }}{{ with images.Config $file }}{{ $size = dict "width" .Width "height" .Height }}{{ end }}{{ end -}}
+<figure class="sx-figure">
+  <img src="{{ .Destination | safeURL }}" alt=""{{ with $size.width }} width="{{ . }}" height="{{ $size.height }}" style="--w: {{ . }}; --h: {{ $size.height }}"{{ end }} loading="lazy" />
+  {{- with .PlainText }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
+{{- /**/ -}}

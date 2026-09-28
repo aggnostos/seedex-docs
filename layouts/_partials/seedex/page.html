@@ -1,0 +1,32 @@
+{{- $page := . -}}
+<div class="sx-body">
+  {{- partial "seedex/sidebar.html" . -}}
+  {{- partial "seedex/toc.html" . -}}
+  <main class="sx-main" id="content">
+    <div class="sx-page">
+      <header class="sx-page-header">
+        <div class="sx-page-actions">
+          {{- if .Fragments.Headings }}
+          <button type="button" class="sx-button sx-toc-button" aria-label="{{ T "onThisPage" }}" aria-expanded="false" data-sheet-open="toc">
+            {{- partial "seedex/icon.html" (dict "name" "list") -}}
+          </button>
+          {{- end }}
+        </div>
+        {{- with .Parent }}{{ if not .IsHome }}
+        <nav class="sx-breadcrumb" aria-label="{{ T "breadcrumb" }}"><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></nav>
+        {{- end }}{{ end }}
+        <h1>{{ .Title }}</h1>
+      </header>
+      <div class="sx-content">
+        {{- .Content -}}
+      </div>
+    </div>
+    {{- partial "seedex/pager.html" . -}}
+    {{- with .Lastmod }}{{ if not $.Lastmod.IsZero }}
+    <div class="sx-page-footer">
+      <p>{{ T "lastUpdated" }} <time datetime="{{ .UTC.Format "2006-01-02T15:04:05Z" }}">{{ .Format "2006-01-02" }}</time></p>
+    </div>
+    {{- end }}{{ end }}
+  </main>
+</div>
+<div class="sx-backdrop" hidden></div>

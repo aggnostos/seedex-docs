@@ -1,0 +1,21 @@
+{{- $data := resources.Get "json/seedex-search.json" | resources.ExecuteAsTemplate (printf "%s.search-data.json" site.Language.Lang) . -}}
+<div class="sx-search" data-index="{{ $data.RelPermalink }}">
+  <button type="button" class="sx-button sx-search-close" aria-label="{{ T "close" }}">{{ partial "seedex/icon.html" (dict "name" "xmark") }}</button>
+  <div class="sx-search-box">
+    <span class="sx-search-icon">{{ partial "seedex/icon.html" (dict "name" "search") }}</span>
+    <button type="button" class="sx-search-clear" aria-label="{{ T "clear" }}" hidden>{{ partial "seedex/icon.html" (dict "name" "circle-xmark") }}</button>
+    <input class="sx-search-input" type="text" placeholder="{{ T "searchPlaceholder" }}" aria-label="{{ T "search" }}" autocomplete="off" spellcheck="false" maxlength="512" size="1" />
+    <span class="sx-search-keys" aria-hidden="true"><kbd class="sx-kbd-mod"><span class="sx-mac">⌘</span><span class="sx-not-mac">Ctrl</span></kbd><kbd>k</kbd></span>
+    <span class="sx-search-count" hidden></span>
+  </div>
+  <div class="sx-search-panel" hidden>
+    <ul class="sx-search-results" role="listbox"></ul>
+    <div class="sx-search-footer">
+      <div class="sx-search-filter"><span>{{ T "filter" }}</span><span class="sx-button">{{ site.Language.Label }}{{ partial "seedex/icon.html" (dict "name" "chevron-down" "class" "sx-chevron") }}</span></div>
+      <div class="sx-search-hint">
+        <span><kbd>{{ partial "seedex/icon.html" (dict "name" "arrow-up") }}</kbd><kbd>{{ partial "seedex/icon.html" (dict "name" "arrow-down") }}</kbd></span>{{ T "navigate" }}
+        <span><kbd>ESC</kbd></span>{{ T "close" }}
+      </div>
+    </div>
+  </div>
+</div>

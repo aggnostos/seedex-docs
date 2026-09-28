@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang }}">
+  {{- partial "head.html" . -}}
+  <body>
+    {{- partial "seedex/header.html" . -}}
+    {{- block "main" . }}{{ end -}}
+    {{- $script := resources.Get "js/seedex.js" | resources.ExecuteAsTemplate (printf "js/seedex.%s.js" site.Language.Lang) . -}}
+    {{- if hugo.IsProduction }}{{ $script = $script | minify | fingerprint }}{{ end }}
+    <script defer src="{{ $script.RelPermalink }}"></script>
+  </body>
+</html>
