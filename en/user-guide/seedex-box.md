@@ -166,19 +166,23 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
 
 ## DNS
 
-The DNS service is the resolver of the whole network. Queries leave encrypted, and through the tunnel when one is up. With interception enabled, the router handles standard DNS requests from devices that try to resolve on their own.
+The DNS service is the resolver of the whole network. Queries leave encrypted, and through the tunnel when one is up, whichever the default route. This way the provider can neither block DNS nor rewrite its answers for blocked sites. With no tunnel up, DNS goes over the provider's line, so the router can still resolve and bring the tunnels up. With interception enabled, the router handles standard DNS requests from devices that try to resolve on their own.
 
 * `sdx dns` shows whether the service runs, the upstream, the resolver, and whether interception is on.
 * `sdx dns config show`, `get <key>`, and `set <key>=<value> ...` manage the settings:
   * `upstream`: Where the router sends queries.
     * `encrypted` uses DNS-over-HTTPS to the resolver: through the tunnel when one is up, and over the provider's line otherwise.
     * `plain` uses the resolver's classic DNS over the same path.
-    * `provider` uses whatever the provider handed out, untouched.
+    * `provider` uses whatever the provider handed out, untouched, always over the provider's line: the provider's DNS answers only its own users. For a blocked site the provider may answer with the address of its stub page, so overlay domain rules for blocked sites do not work with `provider`.
   * `resolver`: `cloudflare`, `quad9`, or `google`. Ignored with `provider`.
   * `intercept`: `1` redirects DNS on port 53 from the network into the router and refuses DNS-over-TLS on port 853. It cannot transparently intercept arbitrary DNS-over-HTTPS traffic, so a device that uses its own DoH resolver can bypass DNS-based domain rules. `0` leaves devices alone.
 
 {% hint style="info" %}
 To make clients that use known DoH endpoints fall back to the router's DNS, add a `block` router rule for those endpoint domains. Use `domain=` entries or a `list_url`/`list_path` list, for example `dns.google`, `cloudflare-dns.com`, and the concrete hosts you use under `doh.*`. Exclude the resolver used by the router itself: blocking `cloudflare-dns.com` while `resolver=cloudflare`, for example, breaks its encrypted upstream. This only covers known domain-based endpoints; a client can still use an unknown endpoint or a hard-coded IP address.
+{% endhint %}
+
+{% hint style="warning" %}
+dnsmasq also asks the servers listed in `/etc/config/dhcp` (`list server` in the `dnsmasq` section), alongside the resolver of the DNS service. They get classic DNS through the tunnel, not DNS-over-HTTPS, and their answers mix with the resolver's. For `encrypted` to be the only upstream, remove them: `uci delete dhcp.@dnsmasq[0].server; uci commit dhcp; /etc/init.d/dnsmasq restart`.
 {% endhint %}
 
 ## Link
