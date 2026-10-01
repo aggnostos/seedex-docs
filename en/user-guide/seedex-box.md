@@ -70,7 +70,7 @@ The VPN service runs WG and AWG tunnels. Each config is a tunnel of its own: a `
 
 The proxy service runs one sing-box instance that gives every config its own tunnel interface: `proxy0`, `proxy1`, and so on. The router treats them like the VPN tunnels — it probes each one, routes through the fastest, and pins a rule to any of them. A seedex-agent server's config carries all its protocols. Inside, sing-box measures them by URL test and keeps the interface on the fastest, while the router sees the config as one tunnel: the watchdog records the RTT through its interface, and `priority`, `reserve`, and `iface=` apply to it as a whole. Any config with several outbounds works the same way. Names are resolved by the router's DNS service. As with VPN, starting the proxy also starts the router and DNS services when they aren't running.
 
-* `sdx proxy` shows whether the service runs and lists every config with its RTT. `[*]` marks the config that carries traffic, `reserved` a config taken out of the overlay.
+* `sdx proxy` shows whether the service runs and lists every config with its RTT. `[*]` marks the config that carries traffic, `reserved` a config taken out of the overlay. For a config with several protocols, the parentheses after the name hold the one sing-box sends the traffic through right now, for example `ger1-proxy (vless)`.
 * `sdx proxy show [#|name ...]` lists the configs with their files, or shows the named configs with their outbounds.
 * `sdx proxy enable <#|name ...>` and `disable` switch configs on or off. sing-box is rebuilt from the enabled configs at the next restart.
 * `sdx proxy remove <#|name ...>` removes configs. Their files are deleted at the next start.
