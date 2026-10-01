@@ -68,7 +68,7 @@ The VPN service runs WG and AWG tunnels. Each config is a tunnel of its own: a `
 
 ## Proxy
 
-The proxy service runs one sing-box instance that gives every config its own tunnel interface: `proxy0`, `proxy1`, and so on. The router treats them like the VPN tunnels — it probes each one, routes through the fastest, and pins a rule to any of them. A config that holds several outbounds picks among them by URL test on its own interface. Names are resolved by the router's DNS service. As with VPN, starting the proxy also starts the router and DNS services when they aren't running.
+The proxy service runs one sing-box instance that gives every config its own tunnel interface: `proxy0`, `proxy1`, and so on. The router treats them like the VPN tunnels — it probes each one, routes through the fastest, and pins a rule to any of them. A seedex-agent server's config carries all its protocols. Inside, sing-box measures them by URL test and keeps the interface on the fastest, while the router sees the config as one tunnel: the watchdog records the RTT through its interface, and `priority`, `reserve`, and `iface=` apply to it as a whole. Any config with several outbounds works the same way. Names are resolved by the router's DNS service. As with VPN, starting the proxy also starts the router and DNS services when they aren't running.
 
 * `sdx proxy` shows whether the service runs and lists every config with its RTT. `[*]` marks the config that carries traffic, `reserved` a config taken out of the overlay.
 * `sdx proxy show [#|name ...]` lists the configs with their files, or shows the named configs with their outbounds.
@@ -78,7 +78,7 @@ The proxy service runs one sing-box instance that gives every config its own tun
 * `sdx proxy reset` stops the service and drops every config with its files.
 * `sdx proxy config show`, `get <key>`, and `set <key>=<value> ...` manage the settings:
   * `log_level`: The sing-box verbosity: `error`, `warn`, `info`, `debug`, or `trace`.
-  * `urltest_interval`: How often sing-box re-measures its outbounds, for example `1m`. It matters when one config holds several outbounds: sing-box picks the fastest by fetching the router's `watchdog_url`.
+  * `urltest_interval`: How often sing-box re-measures the protocols inside a config, for example `1m`. It fetches the router's `watchdog_url` to do so.
 
 ## Router
 
@@ -193,6 +193,8 @@ dnsmasq also asks the servers listed in `/etc/config/dhcp` (`list server` in the
 ## Link
 
 A link is the connection to a server that runs seedex-agent. You pair once. From then on, the router pulls the VPN and proxy configs selected for that link from the server every 30 minutes and on demand. Configs that a link delivers are ordinary `vpn` and `proxy` entries marked as managed by that link: the link updates them, removes them when the server drops them, and leaves configs that you imported by hand alone.
+
+A server offers one proxy config, `<server>-proxy`, with all its protocols. It used to offer a config per protocol, `<server>-<protocol>`. The first sync after the server update carries the selection over to the new config, along with the rules pinned by `iface=`, the highest `priority` of the old ones, and `reserve` when all of them were reserved. The old entries are removed after that. Update the router before the server: an older router knows nothing of the move and drops the link's proxy configs until you select the new one with `sdx link select`.
 
 {% hint style="warning" %}
 Treat a router token as full access to the server's VPN and proxy services. One server is one circle of trust: do not pair routers that you do not trust with each other to the same server. Link does not expose the server's `firewall` or `link` commands, but this does not make the token suitable for separating mutually untrusted routers.

@@ -49,7 +49,7 @@ The proxy service is a sing-box server with the protocols that you pick: `vless`
 * `sdx proxy add <protocol> <port>` adds a protocol on a port. It generates the credentials, opens the port, and restarts sing-box, or starts it if it isn't running.
 * `sdx proxy remove <protocol>` removes a protocol and closes its port.
 * `sdx proxy config` shows the connection credentials of every protocol.
-* `sdx proxy export [<protocol>] [-o <dir>]` writes the client configs, one protocol or all, as `.json` files that `sdx import` accepts on the router.
+* `sdx proxy export [<protocol>] [-o <dir>]` produces a client `.json` config that `sdx import` accepts on the router. Without a protocol, it is one config, `<server>-proxy`, with every protocol: the client measures them by URL test and goes through the fastest. With a protocol, it is a `<server>-<protocol>` config for that one alone. Without `-o` the config is printed, so `sdx proxy export > proxy.json` yields a ready file.
 * `sdx proxy export [<protocol>] --link` prints share links instead, for phone and desktop apps. Links for TLS protocols carry `insecure=1` because a link can't hold the certificate; the `.json` form pins it. ShadowTLS has no link form.
 * `sdx proxy export [<protocol>] --link --base64` encodes the same links as a subscription body, which is what panels serve. `sdx import` on the router takes it as a file or over HTTP.
 * `sdx proxy rotate [<protocol>]` generates credentials again for one protocol or for all protocols. The ports don't change.
