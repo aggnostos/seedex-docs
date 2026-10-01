@@ -11,11 +11,7 @@ You need the following:
 
 Minimum router requirements (provisional): **256 MB RAM** and **100 MB of free storage** for package installation.
 
-Choose how to configure the router: [CLI](#cli) or [LuCI](#luci).
-
-## CLI
-
-### Install seedex-box
+## Install seedex-box
 
 On the router, run the installer as root:
 
@@ -25,36 +21,10 @@ wget -O - https://feed.seedex.net/install.sh | sh
 
 The installer adds the Seedex package feed and installs `seedex-box` and `luci-app-seedex` for LuCI. Nothing is started until you apply the first config. To skip LuCI, run the installer with `| sh -s -- --no-luci`.
 
-### Use your own servers
-
-If you already have a server, the router takes what its clients use: a WG or AWG `.conf` file, a sing-box `.json` file, or a share link such as `vless://...`.
-
-1. Copy the config files to the router, or keep the links at hand.
-
-2. Import them:
-
-   ```sh
-   sdx import awg.conf
-   sdx import wg.conf
-   sdx import sing-box.json
-   sdx import 'vless://...'
-   ```
-
-   The file name becomes the config name, and a link brings its own name. A directory imports every config in it, and a text file with one link per line imports every link.
-
-3. Apply the changes:
-
-   ```sh
-   sdx apply
-   ```
-
-   The command saves the configs and starts the services: the tunnels come up, and the router and DNS services start with them.
-
-Skip to [Check the status](#check-the-status). Several configs are fine: the router routes through the fastest live tunnel and moves the traffic when a tunnel fails.
-
-### Install seedex-agent
+## Install seedex-agent
 
 If you have a server but nothing on it yet, seedex-agent sets it up.
+If you already have client configs, skip this step.
 
 1. On the server, run the installer as root:
 
@@ -87,6 +57,37 @@ If you have a server but nothing on it yet, seedex-agent sets it up.
    ```
 
    The command prints the token, the certificate fingerprint, and one line to run on the router. Keep the output. The token is shown once.
+
+Choose how to configure the router: [CLI](#cli) or [LuCI](#luci).
+
+## CLI
+
+### Use your own servers
+
+If you already have a server, the router takes what its clients use: a WG or AWG `.conf` file, a sing-box `.json` file, or a share link such as `vless://...`.
+
+1. Copy the config files to the router, or keep the links at hand.
+
+2. Import them:
+
+   ```sh
+   sdx import awg.conf
+   sdx import wg.conf
+   sdx import sing-box.json
+   sdx import 'vless://...'
+   ```
+
+   The file name becomes the config name, and a link brings its own name. A directory imports every config in it, and a text file with one link per line imports every link.
+
+3. Apply the changes:
+
+   ```sh
+   sdx apply
+   ```
+
+   The command saves the configs and starts the services: the tunnels come up, and the router and DNS services start with them.
+
+Skip to [Check the status](#check-the-status). Several configs are fine: the router routes through the fastest live tunnel and moves the traffic when a tunnel fails.
 
 ### Connect the router to seedex-agent
 
@@ -156,18 +157,6 @@ If the router doesn't route traffic, use:
 ## LuCI
 
 Configure the router through its web interface.
-Installing packages requires SSH; preparing the server requires its console.
-
-### Install seedex-box
-
-On the router, run the installer as root:
-
-```sh
-wget -O - https://feed.seedex.net/install.sh | sh
-```
-
-The installer adds the Seedex feed, installs `seedex-box` and `luci-app-seedex`.
-After installation, open the router's web interface, then go to **Services > Seedex**.
 
 ### Use your own servers
 
@@ -182,49 +171,13 @@ If you already have a server, the router takes what its clients use: a WG or AWG
 4. Click **Apply** under **Unsaved changes** on each tab where you added configs:
    **VPN**, **Proxy**. This saves the settings and starts the tunnels. Router and DNS start automatically.
 
-You can also upload an existing file through **System > Import config > Import**.
-After uploading, apply the changes on the **VPN** or **Proxy** tab.
+To import a file, open the **System** tab under **Services > Seedex**.
+In **Import config**, choose a `.conf`, `.json`, or text file containing proxy links,
+then click **Import**.
+After uploading, click **Apply** on the **VPN** or **Proxy** tab.
 Use **Apply** within Seedex: OpenWrt's standard **Save & Apply** does not see these changes.
 
 Skip to [Check the status](#check-the-status-1). Several configs are fine: the router routes through the fastest live tunnel and moves the traffic when a tunnel fails.
-
-### Install seedex-agent
-
-Complete this step in the server console.
-
-If you have a server but nothing on it yet, seedex-agent sets it up.
-
-1. On the server, run the installer as root:
-
-   ```sh
-   wget -O - https://github.com/aggnostos/seedex-agent/releases/latest/download/install.sh | bash
-   ```
-
-   The installer downloads the latest release and installs the `sdx` command, AWG, WG, sing-box, and the Link API binary. It generates the server keys, opens the ports, and enables the services. Nothing is started yet. To update later, run the same command again.
-
-2. Add VPN clients for the router and a proxy protocol. For example, an AWG client, a WG client, and VLESS Reality on port 443. On a network that filters WG, such as in Russia, only the AWG client works; the router picks the fastest live tunnel by itself:
-
-   ```sh
-   sdx vpn add awg router
-   sdx vpn add wg router
-   sdx proxy add vless 443
-   ```
-
-3. Start the services:
-
-   ```sh
-   sdx start
-   ```
-
-   The services are not running until you start them. `sdx start` brings up every protocol that has a client or a port, so run it after the first `add`; a protocol added later starts with `sdx vpn start` or `sdx proxy start`.
-
-4. Pair a router:
-
-   ```sh
-   sdx link add router
-   ```
-
-   The command prints the token, the certificate fingerprint, and one line to run on the router. Keep the output. The token is shown once.
 
 ### Connect the router to seedex-agent
 
@@ -237,7 +190,6 @@ If you have a server but nothing on it yet, seedex-agent sets it up.
 4. Open the **VPN** and **Proxy** tabs where configs were imported.
    Click **Apply** under **Unsaved changes** on each tab.
    The tunnels start along with Router and DNS.
-
 
 From then on, the router pulls configs from the server automatically.
 
