@@ -78,7 +78,7 @@
 * `sdx proxy reset` останавливает сервис и удаляет каждый конфиг вместе с файлами.
 * `sdx proxy config show`, `get <key>` и `set <key>=<value> ...` управляют настройками:
   * `log_level`: подробность sing-box: `error`, `warn`, `info`, `debug` или `trace`.
-  * `urltest_interval`: как часто sing-box перемеряет outbound-ы, например `1m`.
+  * `urltest_interval`: как часто sing-box перемеряет outbound-ы, например `1m`. Это нужно, когда в одном конфиге несколько outbound-ов: sing-box выбирает самый быстрый, запрашивая `watchdog_url` роутера.
 
 ## Router
 
@@ -153,7 +153,7 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
   * `default_route`: куда идёт несовпавший трафик: `overlay` или `direct`.
   * `kill_switch`: `1` блокирует трафик, назначенный для overlay, когда ни один overlay-туннель не поднят. `0` пускает этот трафик к провайдеру открытым.
   * `watchdog_interval`: число секунд между проверками туннелей.
-  * `watchdog_url`: URL, который запрашивают проверки.
+  * `watchdog_url`: URL, который запрашивают проверки. Его же использует `urltest` в Proxy, поэтому после смены `sdx router apply` перезапускает Proxy, если там есть конфиг с несколькими outbound-ами.
   * `watchdog_timeout`: число секунд, после которых проверка считается неудачной.
   * `watchdog_mode`: как watchdog выбирает туннель. Он сравнивает медиану RTT последних трёх проверок, а туннель, который перестал отвечать, покидает сразу.
     * `fastest` (по умолчанию) переходит на туннель, который быстрее больше чем на `watchdog_tolerance` в `watchdog_checks` проверках подряд. Приоритеты не учитываются.

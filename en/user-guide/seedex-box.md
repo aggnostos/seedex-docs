@@ -78,7 +78,7 @@ The proxy service runs one sing-box instance that gives every config its own tun
 * `sdx proxy reset` stops the service and drops every config with its files.
 * `sdx proxy config show`, `get <key>`, and `set <key>=<value> ...` manage the settings:
   * `log_level`: The sing-box verbosity: `error`, `warn`, `info`, `debug`, or `trace`.
-  * `urltest_interval`: How often sing-box re-measures its outbounds, for example `1m`.
+  * `urltest_interval`: How often sing-box re-measures its outbounds, for example `1m`. It matters when one config holds several outbounds: sing-box picks the fastest by fetching the router's `watchdog_url`.
 
 ## Router
 
@@ -153,7 +153,7 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
   * `default_route`: Where unmatched traffic goes: `overlay` or `direct`.
   * `kill_switch`: `1` blocks traffic that is meant for the overlay when no overlay tunnel is up. `0` lets that traffic out through the provider in the clear.
   * `watchdog_interval`: The number of seconds between probes of the tunnels.
-  * `watchdog_url`: The URL that the probes fetch.
+  * `watchdog_url`: The URL that the probes fetch. The `urltest` of Proxy uses it too, so after a change `sdx router apply` restarts Proxy when a config there holds several outbounds.
   * `watchdog_timeout`: The number of seconds before a probe counts as failed.
   * `watchdog_mode`: How the watchdog picks the tunnel. It compares the median RTT of the last three probes, and it leaves a tunnel at once when that tunnel stops answering.
     * `fastest` (default) moves to a tunnel that is faster by more than `watchdog_tolerance` in `watchdog_checks` probes in a row. Priorities play no part.
