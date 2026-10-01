@@ -164,7 +164,7 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
   * `watchdog_tolerance`: How many milliseconds faster another tunnel must be in `fastest` mode, 100 by default.
   * `watchdog_checks`: How many probes in a row the better tunnel must win before the switch, 3 by default. At the default 30-second interval that is a minute and a half.
 
-`sdx router apply` changes the rules in place. The table, the route, and the tunnels stay up, and dnsmasq restarts only when the domains change. The addresses of a domain you add by hand join its rule at once. Its subdomains match once a client asks for them again: if a device keeps old answers cached, flush its DNS cache or restart the browser. Removing a domain clears the addresses of the other domains of that type, which then gather again: a client that keeps an address cached bypasses the rule for a while. The `watchdog_*` settings take effect at the next probe, while a change of `default_route` or `kill_switch` restarts the service.
+`sdx router apply` changes the rules in place. The table, the route, and the tunnels stay up, and dnsmasq restarts only when the domains change. The addresses of a domain you add by hand join its rule at once. Its subdomains match once a client asks for them again, within the `max_ttl` of the DNS service. To skip the wait, flush the DNS cache on the device or restart the browser. Removing a domain clears the addresses of the other domains of that type, which then gather again: a client that keeps an address cached bypasses the rule for a while. The `watchdog_*` settings take effect at the next probe, while a change of `default_route` or `kill_switch` restarts the service.
 
 `sdx router restart` keeps the rules and the route until the new start replaces them, so no traffic slips past the tunnel.
 
@@ -172,7 +172,7 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
 
 The DNS service is the resolver of the whole network. Queries leave encrypted, and through the tunnel when one is up, whichever the default route. This way the provider can neither block DNS nor rewrite its answers for blocked sites. With no tunnel up, DNS goes over the provider's line, so the router can still resolve and bring the tunnels up. With interception enabled, the router handles standard DNS requests from devices that try to resolve on their own.
 
-* `sdx dns` shows whether the service runs, the upstream, the resolver, and whether interception is on.
+* `sdx dns` shows whether the service runs, the upstream, the resolver, the interception, and `max_ttl`.
 * `sdx dns config show`, `get <key>`, and `set <key>=<value> ...` manage the settings:
   * `upstream`: Where the router sends queries.
     * `encrypted` uses DNS-over-HTTPS to the resolver: through the tunnel when one is up, and over the provider's line otherwise.
@@ -180,6 +180,7 @@ The DNS service is the resolver of the whole network. Queries leave encrypted, a
     * `provider` uses whatever the provider handed out, untouched, always over the provider's line: the provider's DNS answers only its own users. For a blocked site the provider may answer with the address of its stub page, so overlay domain rules for blocked sites do not work with `provider`.
   * `resolver`: `cloudflare`, `quad9`, or `google`. Ignored with `provider`.
   * `intercept`: `1` redirects DNS on port 53 from the network into the router and refuses DNS-over-TLS on port 853. It cannot transparently intercept arbitrary DNS-over-HTTPS traffic, so a device that uses its own DoH resolver can bypass DNS-based domain rules. `0` leaves devices alone.
+  * `max_ttl`: How many seconds a device may keep an answer cached, 300 by default. After a change to the rules, devices ask for the addresses again within this time, and until then a new domain rule misses them. dnsmasq keeps the true TTL in its own cache, so the upstream gets no more queries. `0` hands out the true TTL.
 
 {% hint style="info" %}
 To make clients that use known DoH endpoints fall back to the router's DNS, add a `block` router rule for those endpoint domains. Use `domain=` entries or a `list_url`/`list_path` list, for example `dns.google`, `cloudflare-dns.com`, and the concrete hosts you use under `doh.*`. Exclude the resolver used by the router itself: blocking `cloudflare-dns.com` while `resolver=cloudflare`, for example, breaks its encrypted upstream. This only covers known domain-based endpoints; a client can still use an unknown endpoint or a hard-coded IP address.
@@ -247,7 +248,7 @@ To add a rule, select **Add rule**, choose its type, and fill in destination or 
 
 ### DNS
 
-Manages the DNS settings: upstream, resolver, and interception.
+Manages the DNS settings: upstream, resolver, interception, and `max_ttl`.
 
 ![The DNS tab: the settings](../../assets/dns.png)
 
