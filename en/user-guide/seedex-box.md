@@ -214,9 +214,9 @@ The **Services > Seedex** menu mirrors `sdx`. Each page shows **Unsaved changes*
 
 ### Status
 
-Shows the services with **Stop** and **Restart** buttons, and the output of `sdx`.
+The **Uplink** section shows the provider's line and the tunnel the overlay runs through, with their RTT. For a proxy config, the parentheses hold the protocol sing-box chose. The **Services** section lists the services with **Start**, **Stop**, and **Restart** buttons. **Start all**, **Stop all**, and **Restart all** act on every service at once, like `sdx start`, `sdx stop`, and `sdx restart`.
 
-![The Status tab: the services table and the sdx output](../../assets/status.png)
+![The Status tab: the uplink and the services](../../assets/status.png)
 
 ### VPN
 

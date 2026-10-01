@@ -214,9 +214,9 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
 
 ### Status
 
-Показывает сервисы с кнопками **Stop** и **Restart** и вывод `sdx`.
+Раздел **Uplink** показывает линию провайдера и туннель, через который идёт overlay, с RTT. У proxy-конфига в скобках указан протокол, выбранный sing-box. Раздел **Services** перечисляет сервисы с кнопками **Start**, **Stop** и **Restart**. Кнопки **Start all**, **Stop all** и **Restart all** управляют всеми сервисами сразу, как `sdx start`, `sdx stop` и `sdx restart`.
 
-![Вкладка Status: таблица сервисов и вывод sdx](../../assets/status.png)
+![Вкладка Status: Uplink и сервисы](../../assets/status.png)
 
 ### VPN
 
