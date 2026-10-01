@@ -164,6 +164,10 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
   * `watchdog_tolerance`: How many milliseconds faster another tunnel must be in `fastest` mode, 100 by default.
   * `watchdog_checks`: How many probes in a row the better tunnel must win before the switch, 3 by default. At the default 30-second interval that is a minute and a half.
 
+`sdx router apply` changes the rules in place. The table, the route, and the tunnels stay up, and dnsmasq restarts only when the domains change. The addresses of a domain you add by hand join its rule at once. Its subdomains match once a client asks for them again: if a device keeps old answers cached, flush its DNS cache or restart the browser. Removing a domain clears the addresses of the other domains of that type, which then gather again: a client that keeps an address cached bypasses the rule for a while. The `watchdog_*` settings take effect at the next probe, while a change of `default_route` or `kill_switch` restarts the service.
+
+`sdx router restart` keeps the rules and the route until the new start replaces them, so no traffic slips past the tunnel.
+
 ## DNS
 
 The DNS service is the resolver of the whole network. Queries leave encrypted, and through the tunnel when one is up, whichever the default route. This way the provider can neither block DNS nor rewrite its answers for blocked sites. With no tunnel up, DNS goes over the provider's line, so the router can still resolve and bring the tunnels up. With interception enabled, the router handles standard DNS requests from devices that try to resolve on their own.
