@@ -65,6 +65,10 @@ The VPN service runs WG and AWG tunnels. Each config is a tunnel of its own: a `
 * `sdx vpn remove <#|name ...>` removes configs. Their files are deleted at the next start.
 * `sdx vpn export` prints every config in a form that `sdx import` accepts.
 * `sdx vpn reset` stops the service and drops every config with its files.
+* `sdx vpn config` prints the settings. `get <key>` reads one, `set <key>=<value> ...` changes them:
+  * `mtu`: The tunnel MTU, `auto` by default. `auto` takes the uplink MTU toward the server less the tunnel overhead: 1420 on an ordinary 1500 uplink, 1412 on PPPoE. An AWG config with `S4` loses that padding too. A number sets the MTU for every tunnel.
+
+  The `MTU` line of a config file takes precedence over this setting. To set one tunnel's MTU without touching its file, use `uci set seedex-vpn.<section>.mtu=<number>`, then `sdx vpn apply`. A link sync keeps it, while it rewrites the file. `sdx vpn show <name>` shows the MTU of a running tunnel.
 
 ## Proxy
 
@@ -220,7 +224,7 @@ The **Uplink** section shows the provider's line and the tunnel the overlay runs
 
 ### VPN
 
-Manages the VPN configs: add, edit, enable, disable, remove, plus reserve and unreserve for keeping a tunnel out of the overlay. The edit dialog sets the tunnel's priority.
+Manages the VPN configs: add, edit, enable, disable, remove, plus reserve and unreserve for keeping a tunnel out of the overlay. The edit dialog sets the tunnel's priority. The **VPN settings** section sets the tunnel MTU.
 
 ![The VPN tab: the config list](../../assets/vpn.png)
 
