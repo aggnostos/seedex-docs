@@ -76,7 +76,7 @@ The proxy service runs one sing-box instance that gives every config its own tun
 * `sdx proxy remove <#|name ...>` removes configs. Their files are deleted at the next start.
 * `sdx proxy export` prints every config in a form that `sdx import` accepts.
 * `sdx proxy reset` stops the service and drops every config with its files.
-* `sdx proxy config show`, `get <key>`, and `set <key>=<value> ...` manage the settings:
+* `sdx proxy config` prints the settings. `get <key>` reads one, `set <key>=<value> ...` changes them:
   * `log_level`: The sing-box verbosity: `error`, `warn`, `info`, `debug`, or `trace`.
   * `urltest_interval`: How often sing-box re-measures the protocols inside a config, for example `1m`. It fetches the router's `watchdog_url` to do so.
 
@@ -149,7 +149,7 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
 * `sdx router remove <#|name ...>` removes rules.
 * `sdx router export` prints the rules as JSON that `sdx import` accepts.
 * `sdx router reset` stops the service and drops every rule.
-* `sdx router config show`, `get <key>`, and `set <key>=<value> ...` manage the settings:
+* `sdx router config` prints the settings. `get <key>` reads one, `set <key>=<value> ...` changes them:
   * `default_route`: Where unmatched traffic goes: `overlay` or `direct`.
   * `kill_switch`: `1` blocks traffic that is meant for the overlay when no overlay tunnel is up. `0` lets that traffic out through the provider in the clear.
   * `watchdog_interval`: The number of seconds between probes of the tunnels.
@@ -173,7 +173,7 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
 The DNS service is the resolver of the whole network. Queries leave encrypted, and through the tunnel when one is up, whichever the default route. This way the provider can neither block DNS nor rewrite its answers for blocked sites. With no tunnel up, DNS goes over the provider's line, so the router can still resolve and bring the tunnels up. With interception enabled, the router handles standard DNS requests from devices that try to resolve on their own.
 
 * `sdx dns` shows whether the service runs, the upstream, the resolver, the interception, and `max_ttl`.
-* `sdx dns config show`, `get <key>`, and `set <key>=<value> ...` manage the settings:
+* `sdx dns config` prints the settings. `get <key>` reads one, `set <key>=<value> ...` changes them:
   * `upstream`: Where the router sends queries.
     * `encrypted` uses DNS-over-HTTPS to the resolver: through the tunnel when one is up, and over the provider's line otherwise.
     * `plain` uses the resolver's classic DNS over the same path.
