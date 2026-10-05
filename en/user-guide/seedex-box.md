@@ -20,7 +20,7 @@ Changes that you make with `sdx`—adding, removing, enabling, updating, and cha
 * `sdx revert` drops the pending changes.
 * `sdx changes` shows the pending changes.
 
-Each of these works on one service (`sdx vpn apply`) or on all services. Underneath, this is plain UCI: a `restart` also picks up pending changes.
+Each of these works on one service (`sdx vpn apply`) or on all services. Until you apply them, the services run on the saved config: a `restart` leaves the pending changes out, while a reboot drops them. `sdx` keeps them apart from plain UCI, so `uci changes` doesn't list them.
 
 {% hint style="warning" %}
 In LuCI, each Seedex page shows its pending changes with **Apply** and **Revert** buttons. OpenWrt's own **Save & Apply** doesn't see them.
