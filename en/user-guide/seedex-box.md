@@ -107,6 +107,20 @@ sdx router add work type=overlay iface=ger1-awg-router domain=intranet.example.c
 sdx router update work iface=
 ```
 
+`dns=<server>` sends the rule's domains, its lists included, to its own DNS servers instead of the DNS service. A server is an IPv4 or IPv6 address, optionally followed by a port after `#`. Queries to these servers take the rule's path:
+
+* A rule pinned with `iface=` asks through its tunnel, so a server inside a work network answers.
+* An `overlay` rule asks through the overlay.
+* A `direct` rule asks over the provider's line, even when `direct` is the default route. A CDN then picks a node close to the provider's address.
+
+The queries go out as plain DNS. There is no fallback: while the rule's servers stay silent, its domains do not resolve, and they never reach the shared resolver. Block rules and device rules take no `dns`. `dns=default` hands the domains back to the DNS service:
+
+```sh
+sdx router add work type=overlay iface=office-wg domain=corp.example.com dns=10.0.0.53
+sdx router add ru type=direct domain=kinopoisk.ru,ya.ru dns=77.88.8.8
+sdx router update work dns=default
+```
+
 A matcher takes one value or several separated by commas and can be repeated.
 
 Destination matchers:
@@ -144,7 +158,7 @@ sdx router add youtube-ip type=overlay list_url='https://iplist.opencck.org/?for
 * `sdx router` shows whether the service runs, the routing mode, the kill switch, the watchdog mode, and the rules.
 * `sdx router show [#|name ...]` lists the rules, or shows every field of the named rules.
 * `sdx router add <name> type=... [matchers]` adds a rule.
-* `sdx router update <#|name> ...` changes a rule. It accepts `type=`, `name=`, and the list options, and edits the matcher lists `domain`, `ip`, `client_mac`, and `client_ip`:
+* `sdx router update <#|name> ...` changes a rule. It accepts `type=`, `name=`, `iface=`, `dns=`, and the list options, and edits the matcher lists `domain`, `ip`, `client_mac`, and `client_ip`:
   * `domain=<values>` replaces the list. An empty `domain=` empties it.
   * `add-domain=` adds to the list.
   * `del-domain=` removes from the list.
@@ -248,7 +262,7 @@ Manages the rules and the router settings.
 
 ![The Router tab: the rules table and the settings](../../assets/router.png)
 
-To add a rule, select **Add rule**, choose its type, and fill in destination or device matchers. A rule may match destinations or devices, but not both. Leave **Tunnel** empty to use the fastest live overlay tunnel, or name a VPN or proxy config to pin the rule to it.
+To add a rule, select **Add rule**, choose its type, and fill in destination or device matchers. A rule may match destinations or devices, but not both. Leave **Tunnel** empty to use the fastest live overlay tunnel, or name a VPN or proxy config to pin the rule to it. **DNS** takes the rule's own DNS servers, while `default` leaves its domains to the DNS service.
 
 ![Add a router rule: type, tunnel, and matchers](../../assets/router_add.png)
 
